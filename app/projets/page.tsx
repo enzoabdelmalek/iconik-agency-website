@@ -59,7 +59,7 @@ export default async function ProjetsPage() {
                         <p className="text-muted text-center py-20">Aucun projet pour le moment.</p>
                     ) : (
                         <div className="flex flex-col gap-20 md:gap-28">
-                            {(projects as Project[]).map((project, index) => (
+                            {(projects as unknown as Project[]).map((project, index) => (
                                 <AnimateOnScroll key={project.id}>
                                     <article className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center group">
                                         {/* Image */}
