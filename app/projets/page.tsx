@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { projects } from "@/app/data/projects";
+import Link from "next/link";
+import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 
 export const metadata: Metadata = {
@@ -8,7 +9,32 @@ export const metadata: Metadata = {
         "Découvrez les films, séries, publicités et pièces de théâtre auxquels ont participé les talents d'Iconik Agency.",
 };
 
-export default function ProjetsPage() {
+interface Talent {
+    id: string;
+    name: string;
+    first_name: string | null;
+    last_name: string | null;
+}
+
+interface Project {
+    id: string;
+    title: string;
+    type: string | null;
+    year: number | null;
+    description: string | null;
+    photo_url: string | null;
+    people_projects: { people: Talent }[];
+}
+
+export default async function ProjetsPage() {
+    const { data: projects } = await supabase
+        .from("projects")
+        .select("id, title, type, year, description, photo_url, people_projects(people(id, name, first_name, last_name))")
+        .eq("business_id", BUSINESS_ID)
+        .eq("active", true)
+        .order("year", { ascending: false })
+        .order("display_order", { ascending: true });
+
     return (
         <>
             {/* Header */}
@@ -26,75 +52,87 @@ export default function ProjetsPage() {
                 </div>
             </section>
 
-            {/* Projects List */}
+            {/* Projects Grid */}
             <section className="py-24 md:py-32">
                 <div className="max-w-[1400px] mx-auto px-8 md:px-12">
-                    <div className="flex flex-col gap-20 md:gap-28">
-                        {projects.map((project, index) => (
-                            <AnimateOnScroll key={project.slug}>
-                                <article
-                                    className={`grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center ${index % 2 === 1 ? "lg:direction-rtl" : ""
-                                        }`}
-                                >
-                                    {/* Image */}
-                                    <div
-                                        className={`${index % 2 === 1 ? "lg:order-2" : ""
-                                            }`}
-                                    >
-                                        <div className="project-card">
-                                            <div className="photo-placeholder-dark photo-placeholder project-image aspect-[16/10] w-full">
-                                                <span className="relative z-10 text-4xl">
-                                                    {project.initials}
-                                                </span>
-                                            </div>
+                    {!projects || projects.length === 0 ? (
+                        <p className="text-muted text-center py-20">Aucun projet pour le moment.</p>
+                    ) : (
+                        <div className="flex flex-col gap-20 md:gap-28">
+                            {(projects as Project[]).map((project, index) => (
+                                <AnimateOnScroll key={project.id}>
+                                    <article className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center group">
+                                        {/* Image */}
+                                        <div className={index % 2 === 1 ? "lg:order-2" : ""}>
+                                            <Link href={`/projets/${project.id}`} className="block no-underline project-card">
+                                                <div className="aspect-[16/10] w-full overflow-hidden bg-surface relative">
+                                                    {project.photo_url ? (
+                                                        <img
+                                                            src={project.photo_url}
+                                                            alt={project.title}
+                                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                        />
+                                                    ) : (
+                                                        <div className="photo-placeholder w-full h-full">
+                                                            <span className="relative z-10 text-4xl font-serif">
+                                                                {project.title[0]}
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </Link>
                                         </div>
-                                    </div>
 
-                                    {/* Info */}
-                                    <div
-                                        className={`${index % 2 === 1 ? "lg:order-1" : ""
-                                            }`}
-                                    >
-                                        <div className="flex items-center gap-3 mb-4">
-                                            <span className="text-xs tracking-[0.1em] uppercase text-muted px-3 py-1 border border-border">
-                                                {project.type}
-                                            </span>
-                                            <span className="text-xs tracking-[0.1em] text-muted">
-                                                {project.year}
-                                            </span>
-                                        </div>
-                                        <h2 className="text-3xl md:text-4xl mb-2">
-                                            {project.title}
-                                        </h2>
-                                        <p className="text-sm text-muted mb-6">
-                                            Réalisation : {project.director}
-                                        </p>
-                                        <div className="section-divider" />
-                                        <p className="text-muted leading-relaxed mb-8 mt-6">
-                                            {project.description}
-                                        </p>
-
-                                        {/* Talents involved */}
-                                        <div>
-                                            <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">
-                                                Talents Iconik
-                                            </p>
-                                            <div className="flex flex-wrap gap-2">
-                                                {project.talents.map((name) => (
-                                                    <span
-                                                        key={name}
-                                                        className="px-3 py-1 bg-surface text-sm"
-                                                    >
-                                                        {name}
+                                        {/* Info */}
+                                        <div className={index % 2 === 1 ? "lg:order-1" : ""}>
+                                            <div className="flex items-center gap-3 mb-4">
+                                                {project.type && (
+                                                    <span className="text-xs tracking-[0.1em] uppercase text-muted px-3 py-1 border border-border">
+                                                        {project.type}
                                                     </span>
-                                                ))}
+                                                )}
+                                                {project.year && (
+                                                    <span className="text-xs tracking-[0.1em] text-muted">{project.year}</span>
+                                                )}
                                             </div>
+                                            <Link href={`/projets/${project.id}`} className="no-underline">
+                                                <h2 className="text-3xl md:text-4xl mb-4 hover:text-muted transition-colors">
+                                                    {project.title}
+                                                </h2>
+                                            </Link>
+                                            {project.description && (
+                                                <>
+                                                    <div className="section-divider" />
+                                                    <p className="text-muted leading-relaxed mt-6 line-clamp-3">
+                                                        {project.description}
+                                                    </p>
+                                                </>
+                                            )}
+                                            {project.people_projects?.length > 0 && (
+                                                <div className="flex flex-wrap gap-2 mt-6">
+                                                    {project.people_projects.map(({ people: t }) => {
+                                                        const name = t.first_name && t.last_name
+                                                            ? `${t.first_name} ${t.last_name}`
+                                                            : t.name;
+                                                        return (
+                                                            <Link key={t.id} href={`/talents/${t.id}`}
+                                                                className="text-xs tracking-[0.05em] px-3 py-1 border border-border text-muted hover:text-foreground hover:border-foreground transition-colors no-underline">
+                                                                {name}
+                                                            </Link>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
+                                            <Link href={`/projets/${project.id}`}
+                                                className="block text-xs tracking-[0.1em] uppercase text-muted hover:text-foreground transition-colors no-underline mt-6">
+                                                Voir le projet →
+                                            </Link>
                                         </div>
-                                    </div>
-                                </article>
-                            </AnimateOnScroll>
-                        ))}
-                    </div>
+                                    </article>
+                                </AnimateOnScroll>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
         </>

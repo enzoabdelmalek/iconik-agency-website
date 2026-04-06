@@ -1,11 +1,17 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { talents, getTalentBySlug } from "@/app/data/talents";
+import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
+import PhotoCarousel from "@/app/components/PhotoCarousel";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
-    return talents.map((t) => ({ slug: t.slug }));
+    const { data } = await supabase
+        .from("people")
+        .select("id")
+        .eq("business_id", BUSINESS_ID)
+        .eq("active", true);
+    return (data || []).map(t => ({ slug: t.id }));
 }
 
 export async function generateMetadata({
@@ -14,11 +20,18 @@ export async function generateMetadata({
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     const { slug } = await params;
-    const talent = getTalentBySlug(slug);
+    const { data: talent } = await supabase
+        .from("people")
+        .select("name, first_name, last_name, description")
+        .eq("id", slug)
+        .single();
     if (!talent) return {};
+    const fullName = talent.first_name && talent.last_name
+        ? `${talent.first_name} ${talent.last_name}`
+        : talent.name;
     return {
-        title: `${talent.firstName} ${talent.lastName}`,
-        description: talent.bio.slice(0, 160),
+        title: fullName,
+        description: talent.description?.slice(0, 160) || "",
     };
 }
 
@@ -28,11 +41,28 @@ export default async function TalentDetailPage({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
-    const talent = getTalentBySlug(slug);
+    const { data: talent } = await supabase
+        .from("people")
+        .select("*")
+        .eq("id", slug)
+        .eq("business_id", BUSINESS_ID)
+        .single();
 
-    if (!talent) {
-        notFound();
-    }
+    if (!talent) notFound();
+
+    const { data: projectAssignments } = await supabase
+        .from("people_projects")
+        .select("role, projects(id, title, type, year, photo_url)")
+        .eq("person_id", slug);
+
+    const talentProjects = (projectAssignments || []).map((a: any) => ({
+        ...a.projects,
+        role: a.role,
+    }));
+
+    const firstName = talent.first_name || talent.name.split(" ")[0];
+    const lastName = talent.last_name || talent.name.split(" ").slice(1).join(" ");
+    const initials = `${firstName[0]}${lastName?.[0] || ""}`.toUpperCase();
 
     return (
         <>
@@ -53,9 +83,11 @@ export default async function TalentDetailPage({
                         {/* Photo */}
                         <AnimateOnScroll>
                             <div className="photo-placeholder aspect-[3/4] w-full max-w-lg mx-auto lg:mx-0">
-                                <span className="relative z-10 text-5xl md:text-6xl">
-                                    {talent.initials}
-                                </span>
+                                {talent.photo_url ? (
+                                    <img src={talent.photo_url} alt={talent.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <span className="relative z-10 text-5xl md:text-6xl">{initials}</span>
+                                )}
                             </div>
                         </AnimateOnScroll>
 
@@ -63,17 +95,13 @@ export default async function TalentDetailPage({
                         <div className="flex flex-col justify-center">
                             <AnimateOnScroll delay={1}>
                                 <p className="text-xs tracking-[0.2em] uppercase text-muted mb-3">
-                                    {talent.category}
+                                    {talent.specialty}
                                 </p>
                             </AnimateOnScroll>
 
                             <AnimateOnScroll delay={1}>
-                                <h1 className="text-5xl md:text-6xl lg:text-7xl mb-2">
-                                    {talent.firstName}
-                                </h1>
-                                <h1 className="text-5xl md:text-6xl lg:text-7xl mb-8 text-muted/40">
-                                    {talent.lastName}
-                                </h1>
+                                <h1 className="text-5xl md:text-6xl lg:text-7xl mb-2">{firstName}</h1>
+                                <h1 className="text-5xl md:text-6xl lg:text-7xl mb-8 text-muted/40">{lastName}</h1>
                             </AnimateOnScroll>
 
                             <AnimateOnScroll delay={2}>
@@ -82,90 +110,82 @@ export default async function TalentDetailPage({
 
                             <AnimateOnScroll delay={2}>
                                 <p className="text-muted leading-relaxed text-lg mb-10">
-                                    {talent.bio}
+                                    {talent.description}
                                 </p>
                             </AnimateOnScroll>
 
                             {/* Details grid */}
                             <AnimateOnScroll delay={3}>
                                 <div className="grid grid-cols-2 gap-6 mb-10">
-                                    <div>
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-1">
-                                            Âge
-                                        </p>
-                                        <p className="font-medium">{talent.age} ans</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-1">
-                                            Taille
-                                        </p>
-                                        <p className="font-medium">{talent.height}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-1">
-                                            Yeux
-                                        </p>
-                                        <p className="font-medium">{talent.eyeColor}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-1">
-                                            Cheveux
-                                        </p>
-                                        <p className="font-medium">{talent.hairColor}</p>
-                                    </div>
+                                    {talent.age && (
+                                        <div>
+                                            <p className="text-xs tracking-[0.15em] uppercase text-muted mb-1">Âge</p>
+                                            <p className="font-medium">{talent.age} ans</p>
+                                        </div>
+                                    )}
+                                    {talent.height && (
+                                        <div>
+                                            <p className="text-xs tracking-[0.15em] uppercase text-muted mb-1">Taille</p>
+                                            <p className="font-medium">{talent.height}</p>
+                                        </div>
+                                    )}
+                                    {talent.eye_color && (
+                                        <div>
+                                            <p className="text-xs tracking-[0.15em] uppercase text-muted mb-1">Yeux</p>
+                                            <p className="font-medium">{talent.eye_color}</p>
+                                        </div>
+                                    )}
+                                    {talent.hair_color && (
+                                        <div>
+                                            <p className="text-xs tracking-[0.15em] uppercase text-muted mb-1">Cheveux</p>
+                                            <p className="font-medium">{talent.hair_color}</p>
+                                        </div>
+                                    )}
                                 </div>
                             </AnimateOnScroll>
 
                             {/* Languages */}
-                            <AnimateOnScroll delay={4}>
-                                <div className="mb-8">
-                                    <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">
-                                        Langues
-                                    </p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {talent.languages.map((lang) => (
-                                            <span
-                                                key={lang}
-                                                className="px-3 py-1 border border-border text-sm"
-                                            >
-                                                {lang}
-                                            </span>
-                                        ))}
+                            {talent.languages?.length > 0 && (
+                                <AnimateOnScroll delay={4}>
+                                    <div className="mb-8">
+                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">Langues</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {talent.languages.map((lang: string) => (
+                                                <span key={lang} className="px-3 py-1 border border-border text-sm">{lang}</span>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            </AnimateOnScroll>
+                                </AnimateOnScroll>
+                            )}
 
                             {/* Skills */}
-                            <AnimateOnScroll delay={4}>
-                                <div className="mb-10">
-                                    <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">
-                                        Compétences
-                                    </p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {talent.skills.map((skill) => (
-                                            <span
-                                                key={skill}
-                                                className="px-3 py-1 bg-surface text-sm"
-                                            >
-                                                {skill}
-                                            </span>
-                                        ))}
+                            {talent.skills?.length > 0 && (
+                                <AnimateOnScroll delay={4}>
+                                    <div className="mb-10">
+                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">Compétences</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {talent.skills.map((skill: string) => (
+                                                <span key={skill} className="px-3 py-1 bg-surface text-sm">{skill}</span>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            </AnimateOnScroll>
+                                </AnimateOnScroll>
+                            )}
 
                             {/* Projects */}
-                            {talent.projects.length > 0 && (
+                            {talentProjects.length > 0 && (
                                 <AnimateOnScroll delay={5}>
                                     <div className="mb-10">
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">
-                                            Projets
-                                        </p>
+                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">Projets</p>
                                         <div className="flex flex-col gap-2">
-                                            {talent.projects.map((project) => (
-                                                <p key={project} className="text-sm">
-                                                    — {project}
-                                                </p>
+                                            {talentProjects.map((project: any) => (
+                                                <Link key={project.id} href={`/projets/${project.id}`}
+                                                    className="text-sm no-underline hover:text-muted transition-colors flex items-center gap-2">
+                                                    <span>—</span>
+                                                    <span>{project.title}</span>
+                                                    {project.role && <span className="text-muted text-xs">({project.role})</span>}
+                                                    {project.year && <span className="text-muted text-xs">{project.year}</span>}
+                                                </Link>
                                             ))}
                                         </div>
                                     </div>
@@ -183,25 +203,19 @@ export default async function TalentDetailPage({
                 </div>
             </section>
 
-            {/* Gallery placeholder */}
-            <section className="py-24 md:py-32 bg-surface">
-                <div className="max-w-[1400px] mx-auto px-8 md:px-12">
-                    <AnimateOnScroll>
-                        <h2 className="text-3xl md:text-4xl mb-12">Book photo</h2>
-                    </AnimateOnScroll>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-                        {[1, 2, 3, 4, 5, 6].map((i) => (
-                            <AnimateOnScroll key={i} delay={(((i - 1) % 3) + 1) as 1 | 2 | 3}>
-                                <div className="photo-placeholder aspect-[4/5]">
-                                    <span className="relative z-10 text-lg opacity-50">
-                                        {talent.initials} — {i}
-                                    </span>
-                                </div>
-                            </AnimateOnScroll>
-                        ))}
+            {/* Gallery */}
+            {talent.photos?.length > 0 && (
+                <section className="py-24 md:py-32 bg-surface">
+                    <div className="max-w-[1400px] mx-auto px-8 md:px-12">
+                        <AnimateOnScroll>
+                            <h2 className="text-3xl md:text-4xl mb-12">Book photo</h2>
+                        </AnimateOnScroll>
+                        <div className="max-w-lg mx-auto lg:mx-0">
+                            <PhotoCarousel photos={talent.photos} name={`${firstName} ${lastName}`} />
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
         </>
     );
 }

@@ -14,6 +14,7 @@ export interface Talent {
     category: "Enfant" | "Adolescent" | "Jeune Adulte";
     initials: string;
     projects: string[];
+    photoUrl?: string | null;
 }
 
 export const talents: Talent[] = [

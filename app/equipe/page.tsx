@@ -37,14 +37,11 @@ export default function EquipePage() {
                                 delay={((index % 2) + 1) as 1 | 2}
                             >
                                 <div className="group">
-                                    {/* Photo */}
                                     <div className="photo-placeholder aspect-[3/4] w-full mb-8 group-hover:opacity-90 transition-opacity">
                                         <span className="relative z-10 text-4xl md:text-5xl">
                                             {member.initials}
                                         </span>
                                     </div>
-
-                                    {/* Info */}
                                     <div>
                                         <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">
                                             {member.role}

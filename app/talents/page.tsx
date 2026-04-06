@@ -1,17 +1,53 @@
 "use client";
 
-import { useState } from "react";
-import { talents, categories } from "@/app/data/talents";
+import { useState, useEffect } from "react";
+import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import TalentCard from "@/app/components/TalentCard";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 
-export default function TalentsPage() {
-    const [activeCategory, setActiveCategory] = useState("Tous");
+interface Person {
+    id: string;
+    name: string;
+    first_name: string | null;
+    last_name: string | null;
+    specialty: string | null;
+    description: string | null;
+    age: number | null;
+    date_of_birth: string | null;
+    gender: string | null;
+    height: string | null;
+    eye_color: string | null;
+    hair_color: string | null;
+    languages: string[];
+    skills: string[];
+    projects: string[];
+    photo_url: string | null;
+}
 
-    const filteredTalents =
-        activeCategory === "Tous"
-            ? talents
-            : talents.filter((t) => t.category === activeCategory);
+export default function TalentsPage() {
+    const [talents, setTalents] = useState<Person[]>([]);
+    const [activeCategory, setActiveCategory] = useState("Tous");
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchTalents = async () => {
+            const { data } = await supabase
+                .from("people")
+                .select("*")
+                .eq("business_id", BUSINESS_ID)
+                .eq("active", true)
+                .order("display_order", { ascending: true });
+            setTalents((data as Person[]) || []);
+            setLoading(false);
+        };
+        fetchTalents();
+    }, []);
+
+    const categories = ["Tous", ...Array.from(new Set(talents.map(t => t.specialty).filter(Boolean))) as string[]];
+
+    const filteredTalents = activeCategory === "Tous"
+        ? talents
+        : talents.filter(t => t.specialty === activeCategory);
 
     return (
         <>
@@ -53,18 +89,43 @@ export default function TalentsPage() {
             {/* Talent Grid */}
             <section className="py-24 md:py-32">
                 <div className="max-w-[1400px] mx-auto px-8 md:px-12">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10">
-                        {filteredTalents.map((talent, index) => (
-                            <AnimateOnScroll
-                                key={talent.slug}
-                                delay={((index % 4) + 1) as 1 | 2 | 3 | 4}
-                            >
-                                <TalentCard talent={talent} />
-                            </AnimateOnScroll>
-                        ))}
-                    </div>
+                    {loading ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10">
+                            {[...Array(8)].map((_, i) => (
+                                <div key={i} className="aspect-[3/4] bg-surface animate-pulse rounded" />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10">
+                            {filteredTalents.map((talent, index) => (
+                                <AnimateOnScroll
+                                    key={talent.id}
+                                    delay={((index % 4) + 1) as 1 | 2 | 3 | 4}
+                                >
+                                    <TalentCard talent={{
+                                        slug: talent.id,
+                                        firstName: talent.first_name || talent.name.split(" ")[0],
+                                        lastName: talent.last_name || talent.name.split(" ").slice(1).join(" "),
+                                        age: talent.age || 0,
+                                        dateOfBirth: talent.date_of_birth || "",
+                                        gender: (talent.gender as "Féminin" | "Masculin") || "Féminin",
+                                        height: talent.height || "",
+                                        eyeColor: talent.eye_color || "",
+                                        hairColor: talent.hair_color || "",
+                                        languages: talent.languages || [],
+                                        skills: talent.skills || [],
+                                        bio: talent.description || "",
+                                        category: (talent.specialty as "Enfant" | "Adolescent" | "Jeune Adulte") || "Enfant",
+                                        initials: `${(talent.first_name || talent.name)[0]}${talent.last_name?.[0] || ""}`.toUpperCase(),
+                                        projects: talent.projects || [],
+                                        photoUrl: talent.photo_url,
+                                    }} />
+                                </AnimateOnScroll>
+                            ))}
+                        </div>
+                    )}
 
-                    {filteredTalents.length === 0 && (
+                    {!loading && filteredTalents.length === 0 && (
                         <div className="text-center py-20">
                             <p className="text-muted text-lg">
                                 Aucun talent dans cette catégorie pour le moment.

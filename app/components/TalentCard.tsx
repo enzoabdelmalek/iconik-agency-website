@@ -9,11 +9,13 @@ export default function TalentCard({ talent }: TalentCardProps) {
     return (
         <Link href={`/talents/${talent.slug}`} className="block no-underline group">
             <div className="talent-card">
-                {/* Photo placeholder */}
+                {/* Photo */}
                 <div className="photo-placeholder talent-image aspect-[3/4] w-full">
-                    <span className="relative z-10 text-2xl md:text-3xl">
-                        {talent.initials}
-                    </span>
+                    {talent.photoUrl ? (
+                        <img src={talent.photoUrl} alt={`${talent.firstName} ${talent.lastName}`} className="w-full h-full object-cover" />
+                    ) : (
+                        <span className="relative z-10 text-2xl md:text-3xl">{talent.initials}</span>
+                    )}
                 </div>
 
                 {/* Overlay on hover */}
