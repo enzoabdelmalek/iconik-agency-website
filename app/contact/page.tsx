@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { BUSINESS_ID } from "@/lib/supabase";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 
 export default function ContactPage() {
@@ -12,11 +13,27 @@ export default function ContactPage() {
         message: "",
     });
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitted(true);
-        // In production, send to API
+        setIsSubmitting(true);
+        setSubmitError(false);
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ...formData, businessId: BUSINESS_ID }),
+            });
+            if (!res.ok) throw new Error("api error");
+            setIsSubmitted(true);
+        } catch {
+            setSubmitError(true);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleChange = (
@@ -191,9 +208,16 @@ export default function ContactPage() {
                                         </AnimateOnScroll>
 
                                         <AnimateOnScroll delay={5}>
-                                            <button type="submit" className="btn-primary w-fit">
-                                                <span>Envoyer le message</span>
-                                            </button>
+                                            <div className="flex flex-col gap-3">
+                                                <button type="submit" disabled={isSubmitting} className="btn-primary w-fit">
+                                                    <span>{isSubmitting ? "Envoi en cours..." : "Envoyer le message"}</span>
+                                                </button>
+                                                {submitError && (
+                                                    <p className="text-sm text-red-500">
+                                                        Une erreur est survenue. Veuillez réessayer ou nous contacter directement par email.
+                                                    </p>
+                                                )}
+                                            </div>
                                         </AnimateOnScroll>
                                     </div>
                                 </form>
