@@ -79,5 +79,33 @@ export async function POST(req: NextRequest) {
         else console.log("Email envoyé:", emailData?.id);
     }
 
+    // Send confirmation email to the sender
+    if (email && process.env.RESEND_API_KEY) {
+        await resend.emails.send({
+            from: "Iconik Agency <noreply@iconikagency.fr>",
+            to: email,
+            subject: "Nous avons bien reçu votre message — Iconik Agency",
+            html: `
+                <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
+                    <h2 style="font-size: 20px; margin-bottom: 8px;">Merci pour votre message, ${name}.</h2>
+                    <p style="color: #666; margin-top: 0;">Nous avons bien reçu votre demande et nous vous répondrons dans les plus brefs délais.</p>
+
+                    <div style="margin: 32px 0; padding: 20px; background: #f9f9f9; border-left: 3px solid #1a1a1a;">
+                        ${subject ? `<p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #999; margin: 0 0 8px 0;">Objet</p>
+                        <p style="margin: 0 0 16px 0; font-weight: 600;">${subject}</p>` : ""}
+                        <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #999; margin: 0 0 8px 0;">Votre message</p>
+                        <p style="margin: 0; white-space: pre-wrap; color: #444;">${message}</p>
+                    </div>
+
+                    <p style="color: #666;">À très bientôt,<br/><strong>L'équipe Iconik Agency</strong></p>
+
+                    <p style="margin-top: 40px; font-size: 11px; color: #bbb;">
+                        Cet email est un accusé de réception automatique, merci de ne pas y répondre directement.
+                    </p>
+                </div>
+            `,
+        });
+    }
+
     return NextResponse.json({ success: true });
 }

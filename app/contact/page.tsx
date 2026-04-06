@@ -1,46 +1,63 @@
-"use client";
-
-import { useState } from "react";
-import { BUSINESS_ID } from "@/lib/supabase";
+import type { Metadata } from "next";
+import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
+import ContactForm from "./ContactForm";
 
-export default function ContactPage() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
-    });
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitError, setSubmitError] = useState(false);
+export const metadata: Metadata = {
+    title: "Contact",
+    description: "Contactez Iconik Agency pour toute demande de casting, inscription de talent ou collaboration.",
+};
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        setSubmitError(false);
+type DayKey = "lundi" | "mardi" | "mercredi" | "jeudi" | "vendredi" | "samedi" | "dimanche";
+interface DaySchedule { open: boolean; from: string; to: string; }
+type Hours = Record<DayKey, DaySchedule>;
 
-        try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...formData, businessId: BUSINESS_ID }),
-            });
-            if (!res.ok) throw new Error("api error");
-            setIsSubmitted(true);
-        } catch {
-            setSubmitError(true);
-        } finally {
-            setIsSubmitting(false);
+const DAY_LABELS: Record<DayKey, string> = {
+    lundi: "Lundi",
+    mardi: "Mardi",
+    mercredi: "Mercredi",
+    jeudi: "Jeudi",
+    vendredi: "Vendredi",
+    samedi: "Samedi",
+    dimanche: "Dimanche",
+};
+const DAYS: DayKey[] = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+
+function formatHours(hours: Hours | null) {
+    if (!hours) return null;
+
+    const openDays = DAYS.filter((d) => hours[d]?.open);
+    if (openDays.length === 0) return null;
+
+    const groups: { days: DayKey[]; from: string; to: string }[] = [];
+    for (const day of openDays) {
+        const { from, to } = hours[day];
+        const last = groups[groups.length - 1];
+        if (last && last.from === from && last.to === to) {
+            last.days.push(day);
+        } else {
+            groups.push({ days: [day], from, to });
         }
-    };
+    }
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-    ) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    return groups.map(({ days, from, to }) => {
+        const label =
+            days.length === 1
+                ? DAY_LABELS[days[0]]
+                : `${DAY_LABELS[days[0]]} — ${DAY_LABELS[days[days.length - 1]]}`;
+        return `${label} : ${from} — ${to}`;
+    });
+}
+
+export default async function ContactPage() {
+    const { data: business } = await supabase
+        .from("businesses")
+        .select("address, contact_email, contact_phone, maps_url, hours")
+        .eq("id", BUSINESS_ID)
+        .single();
+
+    const hours = business?.hours as Hours | null;
+    const hoursLines = formatHours(hours);
 
     return (
         <>
@@ -66,162 +83,7 @@ export default function ContactPage() {
                                     Envoyez-nous un message
                                 </h2>
                             </AnimateOnScroll>
-
-                            {isSubmitted ? (
-                                <AnimateOnScroll>
-                                    <div className="py-16 text-center">
-                                        <div className="w-16 h-16 border-2 border-foreground rounded-full flex items-center justify-center mx-auto mb-6">
-                                            <svg
-                                                className="w-8 h-8"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth={1.5}
-                                                    d="M5 13l4 4L19 7"
-                                                />
-                                            </svg>
-                                        </div>
-                                        <h3 className="text-2xl mb-3">Message envoyé</h3>
-                                        <p className="text-muted">
-                                            Merci pour votre message. Nous vous répondrons dans les
-                                            plus brefs délais.
-                                        </p>
-                                    </div>
-                                </AnimateOnScroll>
-                            ) : (
-                                <form onSubmit={handleSubmit}>
-                                    <div className="flex flex-col gap-8">
-                                        <AnimateOnScroll delay={1}>
-                                            <div>
-                                                <label
-                                                    htmlFor="name"
-                                                    className="text-xs tracking-[0.1em] uppercase text-muted mb-2 block"
-                                                >
-                                                    Nom complet *
-                                                </label>
-                                                <input
-                                                    id="name"
-                                                    name="name"
-                                                    type="text"
-                                                    required
-                                                    className="form-input"
-                                                    placeholder="Votre nom"
-                                                    value={formData.name}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
-                                        </AnimateOnScroll>
-
-                                        <AnimateOnScroll delay={2}>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                                <div>
-                                                    <label
-                                                        htmlFor="email"
-                                                        className="text-xs tracking-[0.1em] uppercase text-muted mb-2 block"
-                                                    >
-                                                        Email *
-                                                    </label>
-                                                    <input
-                                                        id="email"
-                                                        name="email"
-                                                        type="email"
-                                                        required
-                                                        className="form-input"
-                                                        placeholder="votre@email.com"
-                                                        value={formData.email}
-                                                        onChange={handleChange}
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label
-                                                        htmlFor="phone"
-                                                        className="text-xs tracking-[0.1em] uppercase text-muted mb-2 block"
-                                                    >
-                                                        Téléphone
-                                                    </label>
-                                                    <input
-                                                        id="phone"
-                                                        name="phone"
-                                                        type="tel"
-                                                        className="form-input"
-                                                        placeholder="+33 6 00 00 00 00"
-                                                        value={formData.phone}
-                                                        onChange={handleChange}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </AnimateOnScroll>
-
-                                        <AnimateOnScroll delay={3}>
-                                            <div>
-                                                <label
-                                                    htmlFor="subject"
-                                                    className="text-xs tracking-[0.1em] uppercase text-muted mb-2 block"
-                                                >
-                                                    Objet *
-                                                </label>
-                                                <select
-                                                    id="subject"
-                                                    name="subject"
-                                                    required
-                                                    className="form-input cursor-pointer"
-                                                    value={formData.subject}
-                                                    onChange={handleChange}
-                                                >
-                                                    <option value="">Choisir un objet</option>
-                                                    <option value="casting">Proposition de casting</option>
-                                                    <option value="inscription">
-                                                        Inscription d&apos;un talent
-                                                    </option>
-                                                    <option value="collaboration">
-                                                        Collaboration / Partenariat
-                                                    </option>
-                                                    <option value="presse">Demande presse</option>
-                                                    <option value="autre">Autre</option>
-                                                </select>
-                                            </div>
-                                        </AnimateOnScroll>
-
-                                        <AnimateOnScroll delay={4}>
-                                            <div>
-                                                <label
-                                                    htmlFor="message"
-                                                    className="text-xs tracking-[0.1em] uppercase text-muted mb-2 block"
-                                                >
-                                                    Message *
-                                                </label>
-                                                <textarea
-                                                    id="message"
-                                                    name="message"
-                                                    required
-                                                    className="form-input"
-                                                    placeholder="Votre message..."
-                                                    rows={5}
-                                                    value={formData.message}
-                                                    onChange={handleChange}
-                                                />
-                                            </div>
-                                        </AnimateOnScroll>
-
-                                        <AnimateOnScroll delay={5}>
-                                            <div className="flex flex-col gap-3">
-                                                <button type="submit" disabled={isSubmitting} className="btn-primary w-fit">
-                                                    <span>{isSubmitting ? "Envoi en cours..." : "Envoyer le message"}</span>
-                                                </button>
-                                                {submitError && (
-                                                    <p className="text-sm text-red-500">
-                                                        Une erreur est survenue. Veuillez réessayer ou nous contacter directement par email.
-                                                    </p>
-                                                )}
-                                            </div>
-                                        </AnimateOnScroll>
-                                    </div>
-                                </form>
-                            )}
+                            <ContactForm />
                         </div>
 
                         {/* Info */}
@@ -234,86 +96,89 @@ export default function ContactPage() {
                             </AnimateOnScroll>
 
                             <div className="flex flex-col gap-10">
-                                <AnimateOnScroll delay={2}>
-                                    <div>
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">
-                                            Adresse
-                                        </p>
-                                        <p className="leading-relaxed">
-                                            12 Rue du Faubourg Saint-Honoré
-                                            <br />
-                                            75008 Paris, France
-                                        </p>
-                                    </div>
-                                </AnimateOnScroll>
-
-                                <AnimateOnScroll delay={3}>
-                                    <div>
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">
-                                            Email
-                                        </p>
-                                        <a
-                                            href="mailto:contact@iconik-agency.com"
-                                            className="text-foreground no-underline hover:opacity-70 transition-opacity"
-                                        >
-                                            contact@iconik-agency.com
-                                        </a>
-                                    </div>
-                                </AnimateOnScroll>
-
-                                <AnimateOnScroll delay={3}>
-                                    <div>
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">
-                                            Téléphone
-                                        </p>
-                                        <a
-                                            href="tel:+33142000000"
-                                            className="text-foreground no-underline hover:opacity-70 transition-opacity"
-                                        >
-                                            +33 1 42 00 00 00
-                                        </a>
-                                    </div>
-                                </AnimateOnScroll>
-
-                                <AnimateOnScroll delay={4}>
-                                    <div>
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">
-                                            Horaires
-                                        </p>
-                                        <p className="leading-relaxed">
-                                            Lundi — Vendredi : 9h — 18h
-                                            <br />
-                                            Samedi : Sur rendez-vous
-                                        </p>
-                                    </div>
-                                </AnimateOnScroll>
-
-                                <AnimateOnScroll delay={5}>
-                                    <div>
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">
-                                            Réseaux sociaux
-                                        </p>
-                                        <div className="flex gap-6">
-                                            {["Instagram", "LinkedIn", "Vimeo"].map((social) => (
-                                                <a
-                                                    key={social}
-                                                    href="#"
-                                                    className="text-sm text-foreground no-underline hover:opacity-70 transition-opacity border-b border-foreground pb-[2px]"
-                                                >
-                                                    {social}
-                                                </a>
-                                            ))}
+                                {business?.address && (
+                                    <AnimateOnScroll delay={2}>
+                                        <div>
+                                            <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">
+                                                Adresse
+                                            </p>
+                                            <p className="leading-relaxed whitespace-pre-line">
+                                                {business.address}
+                                            </p>
                                         </div>
-                                    </div>
-                                </AnimateOnScroll>
+                                    </AnimateOnScroll>
+                                )}
+
+                                {business?.contact_email && (
+                                    <AnimateOnScroll delay={3}>
+                                        <div>
+                                            <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">
+                                                Email
+                                            </p>
+                                            <a
+                                                href={`mailto:${business.contact_email}`}
+                                                className="text-foreground no-underline hover:opacity-70 transition-opacity"
+                                            >
+                                                {business.contact_email}
+                                            </a>
+                                        </div>
+                                    </AnimateOnScroll>
+                                )}
+
+                                {business?.contact_phone && (
+                                    <AnimateOnScroll delay={3}>
+                                        <div>
+                                            <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">
+                                                Téléphone
+                                            </p>
+                                            <a
+                                                href={`tel:${business.contact_phone.replace(/\s/g, "")}`}
+                                                className="text-foreground no-underline hover:opacity-70 transition-opacity"
+                                            >
+                                                {business.contact_phone}
+                                            </a>
+                                        </div>
+                                    </AnimateOnScroll>
+                                )}
+
+                                {hoursLines && hoursLines.length > 0 && (
+                                    <AnimateOnScroll delay={4}>
+                                        <div>
+                                            <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">
+                                                Horaires
+                                            </p>
+                                            <div className="flex flex-col gap-1">
+                                                {hoursLines.map((line) => (
+                                                    <p key={line} className="leading-relaxed">
+                                                        {line}
+                                                    </p>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </AnimateOnScroll>
+                                )}
                             </div>
 
-                            {/* Map placeholder */}
                             <AnimateOnScroll delay={5}>
-                                <div className="mt-12 photo-placeholder aspect-[16/9] w-full">
-                                    <span className="relative z-10 text-sm tracking-[0.1em] uppercase">
-                                        Carte — Paris 8ème
-                                    </span>
+                                <div className="mt-12">
+                                    {business?.maps_url ? (
+                                        <a
+                                            href={business.maps_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="photo-placeholder aspect-[16/9] w-full flex items-center justify-center no-underline hover:opacity-80 transition-opacity"
+                                        >
+                                            <span className="relative z-10 text-sm tracking-[0.1em] uppercase">
+                                                Voir sur Google Maps →
+                                            </span>
+                                        </a>
+                                    ) : (
+                                        <div className="photo-placeholder aspect-[16/9] w-full">
+                                            <span className="relative z-10 text-sm tracking-[0.1em] uppercase">
+                                                Carte
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
                             </AnimateOnScroll>
                         </div>
