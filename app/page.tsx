@@ -2,6 +2,7 @@ import Link from "next/link";
 import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import TalentCard from "./components/TalentCard";
 import AnimateOnScroll from "./components/AnimateOnScroll";
+import ReviewsSection from "./components/ReviewsSection";
 
 export default async function HomePage() {
     const [{ data: peopleData }, { data: projectsData }] = await Promise.all([
@@ -284,6 +285,9 @@ export default async function HomePage() {
                     </div>
                 </section>
             )}
+
+            {/* ─── REVIEWS ─── */}
+            <ReviewsSection />
 
             {/* ─── CTA SECTION ─── */}
             <section className="py-24 md:py-32 bg-foreground text-background">

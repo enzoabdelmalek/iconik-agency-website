@@ -7,6 +7,7 @@ const navLinks = [
     { href: "/equipe", label: "Équipe" },
     { href: "/actualites", label: "Actualités" },
     { href: "/contact", label: "Contact" },
+    { href: "/avis", label: "Avis" },
 ];
 
 export default function Footer() {

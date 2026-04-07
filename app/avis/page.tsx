@@ -1,0 +1,140 @@
+import type { Metadata } from "next";
+import { supabase, BUSINESS_ID } from "@/lib/supabase";
+import AnimateOnScroll from "@/app/components/AnimateOnScroll";
+import ReviewForm from "@/app/components/ReviewForm";
+
+export const metadata: Metadata = {
+    title: "Avis",
+    description: "Découvrez les avis sur Iconik Agency et partagez votre expérience.",
+};
+
+export const revalidate = 60;
+
+interface Review {
+    id: string;
+    author_name: string;
+    rating: number;
+    comment: string;
+    reply: string | null;
+    created_at: string;
+}
+
+function Stars({ rating }: { rating: number }) {
+    return (
+        <div className="flex gap-0.5">
+            {[1, 2, 3, 4, 5].map((s) => (
+                <svg key={s} className="w-3.5 h-3.5" viewBox="0 0 24 24"
+                    fill={rating >= s ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5"
+                    style={{ color: rating >= s ? "var(--foreground)" : "var(--muted)" }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                </svg>
+            ))}
+        </div>
+    );
+}
+
+export default async function AvisPage() {
+    const { data: reviews } = await (supabase as any)
+        .from("reviews")
+        .select("id, author_name, rating, comment, reply, created_at")
+        .eq("business_id", BUSINESS_ID)
+        .order("created_at", { ascending: false });
+
+    const list = (reviews as Review[]) || [];
+    const avgRating = list.length > 0
+        ? (list.reduce((acc, r) => acc + r.rating, 0) / list.length).toFixed(1)
+        : null;
+    const distribution = [5, 4, 3, 2, 1].map((star) => ({
+        star,
+        count: list.filter((r) => r.rating === star).length,
+    }));
+
+    return (
+        <>
+            {/* Header */}
+            <section className="page-header bg-surface">
+                <div className="max-w-[1400px] mx-auto px-8 md:px-12">
+                    <p className="text-xs tracking-[0.2em] uppercase text-muted mb-4">Témoignages</p>
+                    <h1 className="text-5xl md:text-7xl mb-6">Avis</h1>
+                    <div className="section-divider" />
+                </div>
+            </section>
+
+            <section className="py-24 md:py-32">
+                <div className="max-w-[1400px] mx-auto px-8 md:px-12">
+
+                    {/* Stats */}
+                    {avgRating && (
+                        <AnimateOnScroll>
+                            <div className="flex flex-col md:flex-row gap-12 items-start md:items-center mb-20 pb-20 border-b border-border">
+                                <div>
+                                    <p className="text-7xl font-serif">{avgRating}</p>
+                                    <Stars rating={Math.round(parseFloat(avgRating))} />
+                                    <p className="text-xs tracking-[0.15em] uppercase text-muted mt-2">{list.length} avis</p>
+                                </div>
+                                <div className="flex flex-col gap-2 flex-1 max-w-xs">
+                                    {distribution.map(({ star, count }) => (
+                                        <div key={star} className="flex items-center gap-3">
+                                            <span className="text-xs text-muted w-2">{star}</span>
+                                            <div className="flex-1 bg-border h-[1px] relative">
+                                                <div className="absolute top-0 left-0 h-[1px] bg-foreground transition-all"
+                                                    style={{ width: list.length > 0 ? `${(count / list.length) * 100}%` : "0%" }} />
+                                            </div>
+                                            <span className="text-xs text-muted w-4">{count}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </AnimateOnScroll>
+                    )}
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+                        {/* Liste */}
+                        <div className="flex flex-col gap-10">
+                            <AnimateOnScroll>
+                                <h2 className="text-3xl md:text-4xl mb-8">Tous les avis</h2>
+                            </AnimateOnScroll>
+                            {list.length === 0 ? (
+                                <p className="text-muted text-sm">Soyez le premier à laisser un avis.</p>
+                            ) : (
+                                list.map((review, i) => (
+                                    <AnimateOnScroll key={review.id} delay={(Math.min(i + 1, 4)) as 1 | 2 | 3 | 4}>
+                                        <div className="border-b border-border pb-10">
+                                            <div className="flex items-center justify-between mb-3">
+                                                <p className="font-medium">{review.author_name}</p>
+                                                <Stars rating={review.rating} />
+                                            </div>
+                                            <p className="text-muted leading-relaxed text-sm">{review.comment}</p>
+                                            {review.reply && (
+                                                <div className="mt-5 pl-5 border-l border-border">
+                                                    <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">Réponse d&apos;Iconik Agency</p>
+                                                    <p className="text-sm text-muted/80 leading-relaxed">{review.reply}</p>
+                                                </div>
+                                            )}
+                                            <p className="text-xs text-muted/50 mt-4">
+                                                {new Date(review.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+                                            </p>
+                                        </div>
+                                    </AnimateOnScroll>
+                                ))
+                            )}
+                        </div>
+
+                        {/* Formulaire */}
+                        <div>
+                            <AnimateOnScroll delay={1}>
+                                <div className="mb-8">
+                                    <h2 className="text-3xl md:text-4xl mb-6">Laisser un avis</h2>
+                                    <div className="section-divider" />
+                                </div>
+                            </AnimateOnScroll>
+                            <AnimateOnScroll delay={2}>
+                                <ReviewForm />
+                            </AnimateOnScroll>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </>
+    );
+}
