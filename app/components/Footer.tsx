@@ -39,7 +39,7 @@ export default function Footer() {
                             <p className="text-[0.6875rem] font-sans font-medium tracking-[0.2em] uppercase mb-6 text-background/30">
                                 Pages
                             </p>
-                            <nav className="flex flex-col gap-[0.875rem]">
+                            <nav className="grid grid-cols-2 gap-x-8 gap-y-[0.875rem]">
                                 {navLinks.map((link) => (
                                     <Link
                                         key={link.href}

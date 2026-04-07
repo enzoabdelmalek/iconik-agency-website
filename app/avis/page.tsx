@@ -68,7 +68,7 @@ export default async function AvisPage() {
                         <AnimateOnScroll>
                             <div className="flex flex-col md:flex-row gap-12 items-start md:items-center mb-20 pb-20 border-b border-border">
                                 <div>
-                                    <p className="text-7xl font-serif">{avgRating}</p>
+                                    <p className="text-7xl font-serif mb-3">{avgRating}</p>
                                     <Stars rating={Math.round(parseFloat(avgRating))} />
                                     <p className="text-xs tracking-[0.15em] uppercase text-muted mt-2">{list.length} avis</p>
                                 </div>
