@@ -31,7 +31,7 @@ export default async function ProjetsPage() {
         .from("projects")
         .select("id, title, type, year, description, photo_url, people_projects(people(id, name, first_name, last_name))")
         .eq("business_id", BUSINESS_ID)
-        .eq("active", true)
+        .neq("active", false)
         .order("year", { ascending: false })
         .order("display_order", { ascending: true });
 

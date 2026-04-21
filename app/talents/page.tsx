@@ -35,19 +35,20 @@ export default function TalentsPage() {
                 .from("people")
                 .select("*")
                 .eq("business_id", BUSINESS_ID)
-                .eq("active", true)
-                .order("display_order", { ascending: true });
+                .neq("active", false)
+                .order("display_order", { ascending: true })
+                .order("last_name", { ascending: true });
             setTalents((data as Person[]) || []);
             setLoading(false);
         };
         fetchTalents();
     }, []);
 
-    const categories = ["Tous", ...Array.from(new Set(talents.map(t => t.specialty).filter(Boolean))) as string[]];
+    const categories = ["Tous", ...Array.from(new Set(talents.map(t => t.specialty?.trim()).filter(Boolean))) as string[]];
 
     const filteredTalents = activeCategory === "Tous"
         ? talents
-        : talents.filter(t => t.specialty === activeCategory);
+        : talents.filter(t => t.specialty?.trim() === activeCategory);
 
     return (
         <>

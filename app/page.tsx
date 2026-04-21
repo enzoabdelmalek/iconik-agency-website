@@ -10,14 +10,15 @@ export default async function HomePage() {
             .from("people")
             .select("id, name, first_name, last_name, age, specialty, skills, photo_url, date_of_birth, gender, height, eye_color, hair_color, languages, projects, description")
             .eq("business_id", BUSINESS_ID)
-            .eq("active", true)
+            .neq("active", false)
             .order("display_order", { ascending: true })
+            .order("last_name", { ascending: true })
             .limit(4),
         supabase
             .from("projects")
             .select("id, title, type, year, photo_url")
             .eq("business_id", BUSINESS_ID)
-            .eq("active", true)
+            .neq("active", false)
             .order("year", { ascending: false })
             .order("display_order", { ascending: true })
             .limit(3),

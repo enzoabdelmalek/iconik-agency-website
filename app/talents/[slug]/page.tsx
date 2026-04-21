@@ -3,6 +3,7 @@ import Link from "next/link";
 import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 import PhotoCarousel from "@/app/components/PhotoCarousel";
+import TalentCVButton from "@/app/components/TalentCVButton";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
@@ -194,9 +195,26 @@ export default async function TalentDetailPage({
 
                             {/* CTA */}
                             <AnimateOnScroll delay={5}>
-                                <Link href="/contact" className="btn-primary w-fit">
-                                    <span>Contacter l&apos;agence</span>
-                                </Link>
+                                <div className="flex flex-wrap items-center gap-4">
+                                    <Link href="/contact" className="btn-primary w-fit">
+                                        <span>Contacter l&apos;agence</span>
+                                    </Link>
+                                    <TalentCVButton talent={{
+                                        firstName,
+                                        lastName,
+                                        specialty: talent.specialty,
+                                        age: talent.age,
+                                        height: talent.height,
+                                        eyeColor: talent.eye_color,
+                                        hairColor: talent.hair_color,
+                                        gender: talent.gender,
+                                        languages: talent.languages || [],
+                                        skills: talent.skills || [],
+                                        description: talent.description,
+                                        photoUrl: talent.photo_url,
+                                        projects: talentProjects,
+                                    }} />
+                                </div>
                             </AnimateOnScroll>
                         </div>
                     </div>
