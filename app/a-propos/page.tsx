@@ -63,19 +63,17 @@ export default function AProposPage() {
                             </AnimateOnScroll>
                             <AnimateOnScroll delay={1}>
                                 <p className="text-muted leading-relaxed mb-6 text-lg">
-                                    Iconik Agency a été fondée en 2017 par Sophie Marchand,
-                                    ancienne directrice de casting, avec une vision claire :
-                                    créer un espace où les jeunes talents du spectacle peuvent
-                                    s&apos;épanouir en toute confiance.
+                                    Iconik Agency a été fondée par Aïssata Diaw avec une vision
+                                    claire : créer un espace où les jeunes talents du spectacle
+                                    peuvent s&apos;épanouir en toute confiance.
                                 </p>
                             </AnimateOnScroll>
                             <AnimateOnScroll delay={2}>
                                 <p className="text-muted leading-relaxed mb-6">
-                                    Après quinze ans passés derrière les tables de casting des
-                                    plus grandes productions françaises, Sophie a constaté un
-                                    manque criant : trop de jeunes comédiens talentueux restaient
-                                    dans l&apos;ombre, faute d&apos;un accompagnement adapté à leur
-                                    âge et à leurs besoins.
+                                    Forte de son expérience dans l&apos;industrie du spectacle,
+                                    Aïssata a constaté un manque criant : trop de jeunes comédiens
+                                    talentueux restaient dans l&apos;ombre, faute d&apos;un
+                                    accompagnement adapté à leur âge et à leurs besoins.
                                 </p>
                             </AnimateOnScroll>
                             <AnimateOnScroll delay={3}>
@@ -112,7 +110,7 @@ export default function AProposPage() {
                     </AnimateOnScroll>
                     <AnimateOnScroll delay={2}>
                         <p className="mt-8 text-sm tracking-[0.15em] uppercase text-background/50">
-                            Sophie Marchand — Fondatrice
+                            Aïssata Diaw — Fondatrice
                         </p>
                     </AnimateOnScroll>
                 </div>
@@ -196,6 +194,40 @@ export default function AProposPage() {
                                 </AnimateOnScroll>
                             ))}
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Fondatrice */}
+            <section className="py-24 md:py-32">
+                <div className="max-w-[1400px] mx-auto px-8 md:px-12">
+                    <AnimateOnScroll>
+                        <p className="text-xs tracking-[0.2em] uppercase text-muted mb-4">
+                            La Fondatrice
+                        </p>
+                        <h2 className="text-3xl md:text-4xl mb-16">Derrière Iconik</h2>
+                    </AnimateOnScroll>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-start">
+                        <AnimateOnScroll delay={1}>
+                            <div className="photo-placeholder aspect-[3/4] w-full">
+                                <span className="relative z-10 text-4xl md:text-5xl">AD</span>
+                            </div>
+                        </AnimateOnScroll>
+                        <AnimateOnScroll delay={2}>
+                            <div className="flex flex-col justify-center h-full">
+                                <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">
+                                    Fondatrice & Directrice
+                                </p>
+                                <h3 className="text-3xl md:text-4xl mb-6">Aïssata Diaw</h3>
+                                <div className="section-divider" />
+                                <p className="text-muted leading-relaxed mt-6">
+                                    Aïssata a fondé Iconik avec la conviction que le talent
+                                    n&apos;attend pas le nombre des années. Son regard aiguisé,
+                                    sa bienveillance et sa rigueur sont au cœur de l&apos;identité
+                                    de l&apos;agence.
+                                </p>
+                            </div>
+                        </AnimateOnScroll>
                     </div>
                 </div>
             </section>

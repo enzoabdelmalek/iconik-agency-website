@@ -8,9 +8,7 @@ const navLinks = [
     { href: "/talents", label: "Talents" },
     { href: "/projets", label: "Projets" },
     { href: "/a-propos", label: "À propos" },
-    { href: "/equipe", label: "Équipe" },
     { href: "/actualites", label: "Actualités" },
-    { href: "/contact", label: "Contact" },
 ];
 
 export default function Header() {
@@ -72,6 +70,9 @@ export default function Header() {
                                 {link.label}
                             </Link>
                         ))}
+                        <Link href="/contact" className="btn-primary text-[0.75rem] py-2.5 px-5">
+                            <span>Contact</span>
+                        </Link>
                     </nav>
 
                     {/* Hamburger */}
@@ -102,6 +103,13 @@ export default function Header() {
                         {link.label}
                     </Link>
                 ))}
+                <Link
+                    href="/contact"
+                    className={pathname === "/contact" ? "!opacity-100 underline underline-offset-8" : ""}
+                    onClick={() => setIsMenuOpen(false)}
+                >
+                    Contact
+                </Link>
             </div>
         </>
     );
