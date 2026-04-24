@@ -84,9 +84,12 @@ export default async function ProjetDetailPage({
             <div className="pt-24 pb-4 max-w-[1400px] mx-auto px-8 md:px-12">
                 <Link
                     href="/projets"
-                    className="text-xs tracking-[0.1em] uppercase text-muted hover:text-foreground transition-colors no-underline"
+                    className="inline-flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors no-underline"
                 >
-                    ← Retour aux projets
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                    Retour aux projets
                 </Link>
             </div>
 
@@ -102,6 +105,7 @@ export default async function ProjetDetailPage({
                                         src={project.photo_url}
                                         alt={project.title}
                                         className="w-full h-full object-cover"
+                                        loading="lazy"
                                     />
                                 ) : (
                                     <div className="photo-placeholder w-full h-full">
@@ -150,18 +154,32 @@ export default async function ProjetDetailPage({
             </section>
 
             {/* Vidéo */}
-            {project.video_url && getEmbedUrl(project.video_url) && (
+            {project.video_url && (
                 <section className="py-16 md:py-24">
                     <div className="max-w-[1400px] mx-auto px-8 md:px-12">
                         <AnimateOnScroll>
-                            <div className="aspect-video w-full overflow-hidden">
-                                <iframe
-                                    src={getEmbedUrl(project.video_url)!}
-                                    className="w-full h-full"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
-                            </div>
+                            {getEmbedUrl(project.video_url) ? (
+                                <div className="aspect-video w-full overflow-hidden">
+                                    <iframe
+                                        src={getEmbedUrl(project.video_url)!}
+                                        className="w-full h-full"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    />
+                                </div>
+                            ) : (
+                                <a
+                                    href={project.video_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-outline w-fit inline-flex items-center gap-2"
+                                >
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+                                    </svg>
+                                    Voir la vidéo
+                                </a>
+                            )}
                         </AnimateOnScroll>
                     </div>
                 </section>
@@ -188,6 +206,7 @@ export default async function ProjetDetailPage({
                                                         src={talent.photo_url}
                                                         alt={talent.name}
                                                         className="w-full h-full object-cover"
+                                                        loading="lazy"
                                                     />
                                                 ) : (
                                                     <span className="relative z-10 text-xl">{initials}</span>

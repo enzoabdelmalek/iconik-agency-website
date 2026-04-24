@@ -24,7 +24,7 @@ export async function generateMetadata({
     const { data: talent } = await supabase
         .from("people")
         .select("name, first_name, last_name, description")
-        .eq("slug", slug)
+        .or(`slug.eq.${slug},id.eq.${slug}`)
         .single();
     if (!talent) return {};
     const fullName = talent.first_name && talent.last_name
@@ -45,7 +45,7 @@ export default async function TalentDetailPage({
     const { data: talent } = await supabase
         .from("people")
         .select("*")
-        .eq("slug", slug)
+        .or(`slug.eq.${slug},id.eq.${slug}`)
         .eq("business_id", BUSINESS_ID)
         .single();
 
@@ -71,9 +71,12 @@ export default async function TalentDetailPage({
             <div className="pt-24 pb-4 max-w-[1400px] mx-auto px-8 md:px-12">
                 <Link
                     href="/talents"
-                    className="text-xs tracking-[0.1em] uppercase text-muted hover:text-foreground transition-colors no-underline"
+                    className="inline-flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors no-underline"
                 >
-                    ← Retour aux talents
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                    Retour aux talents
                 </Link>
             </div>
 

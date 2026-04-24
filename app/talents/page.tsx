@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase, BUSINESS_ID } from "@/lib/supabase";
+import { mapPersonToTalent } from "@/lib/talent-utils";
 import TalentCard from "@/app/components/TalentCard";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 
@@ -103,34 +104,18 @@ export default function TalentsPage() {
                                     key={talent.id}
                                     delay={((index % 4) + 1) as 1 | 2 | 3 | 4}
                                 >
-                                    <TalentCard talent={{
-                                        slug: (talent as any).slug || talent.id,
-                                        firstName: talent.first_name || talent.name.split(" ")[0],
-                                        lastName: talent.last_name || talent.name.split(" ").slice(1).join(" "),
-                                        age: talent.age || 0,
-                                        dateOfBirth: talent.date_of_birth || "",
-                                        gender: (talent.gender as "Féminin" | "Masculin") || "Féminin",
-                                        height: talent.height || "",
-                                        eyeColor: talent.eye_color || "",
-                                        hairColor: talent.hair_color || "",
-                                        languages: talent.languages || [],
-                                        skills: talent.skills || [],
-                                        bio: talent.description || "",
-                                        category: (talent.specialty as "Enfant" | "Adolescent" | "Jeune Adulte") || "Enfant",
-                                        initials: `${(talent.first_name || talent.name)[0]}${talent.last_name?.[0] || ""}`.toUpperCase(),
-                                        projects: talent.projects || [],
-                                        photoUrl: talent.photo_url,
-                                    }} />
+                                    <TalentCard talent={mapPersonToTalent(talent as any)} />
                                 </AnimateOnScroll>
                             ))}
                         </div>
                     )}
 
                     {!loading && filteredTalents.length === 0 && (
-                        <div className="text-center py-20">
-                            <p className="text-muted text-lg">
-                                Aucun talent dans cette catégorie pour le moment.
-                            </p>
+                        <div className="flex flex-col items-center gap-4 py-24 text-center">
+                            <svg className="w-10 h-10 text-muted/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                            <p className="text-muted">Aucun talent dans cette catégorie pour le moment.</p>
                         </div>
                     )}
                 </div>

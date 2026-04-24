@@ -87,6 +87,7 @@ export default function ReviewForm() {
                 <input
                     type="email"
                     required
+                    pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
                     value={form.email}
                     onChange={(e) => setForm(p => ({ ...p, email: e.target.value }))}
                     placeholder="jean@exemple.fr"

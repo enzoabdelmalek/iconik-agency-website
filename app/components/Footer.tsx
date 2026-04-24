@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+const SOCIAL_LINKS = [
+    { label: "Instagram", href: "" },
+    { label: "LinkedIn", href: "" },
+    { label: "Vimeo", href: "" },
+];
+
 const navLinks = [
     { href: "/talents", label: "Talents" },
     { href: "/projets", label: "Projets" },
@@ -85,16 +91,18 @@ export default function Footer() {
 
                     {/* Social + Legal */}
                     <div className="flex items-center gap-8">
-                        {["Instagram", "LinkedIn", "Vimeo"].map((social) => (
+                        {SOCIAL_LINKS.filter(s => s.href).map((social) => (
                             <a
-                                key={social}
-                                href="#"
+                                key={social.label}
+                                href={social.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="text-[0.75rem] text-background/35 no-underline hover:text-background/70 transition-colors duration-300 tracking-[0.04em]"
                             >
-                                {social}
+                                {social.label}
                             </a>
                         ))}
-                        <span className="w-[1px] h-3 bg-background/15" />
+                        {SOCIAL_LINKS.some(s => s.href) && <span className="w-[1px] h-3 bg-background/15" />}
                         <Link
                             href="/mentions-legales"
                             className="text-[0.75rem] text-background/35 no-underline hover:text-background/70 transition-colors duration-300 tracking-[0.04em]"

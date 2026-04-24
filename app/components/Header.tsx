@@ -89,6 +89,14 @@ export default function Header() {
                 </div>
             </header>
 
+            {/* Mobile Menu backdrop */}
+            {isMenuOpen && (
+                <div
+                    className="lg:hidden fixed inset-0 z-30"
+                    onClick={() => setIsMenuOpen(false)}
+                />
+            )}
+
             {/* Mobile Menu */}
             <div className={`mobile-menu ${isMenuOpen ? "is-open" : ""}`}>
                 {navLinks.map((link) => (

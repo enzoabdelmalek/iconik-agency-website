@@ -57,7 +57,12 @@ export default async function ProjetsPage() {
             <section className="py-24 md:py-32">
                 <div className="max-w-[1400px] mx-auto px-8 md:px-12">
                     {!projects || projects.length === 0 ? (
-                        <p className="text-muted text-center py-20">Aucun projet pour le moment.</p>
+                        <div className="flex flex-col items-center gap-4 py-24 text-center">
+                            <svg className="w-10 h-10 text-muted/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75.125v-11.25A1.125 1.125 0 0 1 3.375 7.5h17.25c.621 0 1.125.504 1.125 1.125v11.25m-18.375 0h18.375M6 18.375V7.5m12 10.875V7.5" />
+                            </svg>
+                            <p className="text-muted">Aucun projet pour le moment.</p>
+                        </div>
                     ) : (
                         <div className="flex flex-col gap-20 md:gap-28">
                             {(projects as unknown as Project[]).map((project, index) => (
@@ -72,6 +77,7 @@ export default async function ProjetsPage() {
                                                             src={project.photo_url}
                                                             alt={project.title}
                                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                            loading="lazy"
                                                         />
                                                     ) : (
                                                         <div className="photo-placeholder w-full h-full">

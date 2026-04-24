@@ -13,6 +13,7 @@ export default function ContactForm() {
         message: "",
     });
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isFading, setIsFading] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(false);
 
@@ -28,7 +29,8 @@ export default function ContactForm() {
                 body: JSON.stringify({ ...formData, businessId: BUSINESS_ID }),
             });
             if (!res.ok) throw new Error("api error");
-            setIsSubmitted(true);
+            setIsFading(true);
+            setTimeout(() => setIsSubmitted(true), 400);
         } catch {
             setSubmitError(true);
         } finally {
@@ -61,7 +63,7 @@ export default function ContactForm() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ opacity: isFading ? 0 : 1, transition: "opacity 0.4s ease" }}>
             <div className="flex flex-col gap-8">
                 <AnimateOnScroll delay={1}>
                     <div>
@@ -84,6 +86,7 @@ export default function ContactForm() {
                             </label>
                             <input
                                 id="email" name="email" type="email" required
+                                pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
                                 className="form-input" placeholder="votre@email.com"
                                 value={formData.email} onChange={handleChange}
                             />

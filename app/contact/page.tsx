@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 import ContactForm from "./ContactForm";
 
+const SOCIAL_LINKS = [
+    { label: "Instagram", href: "" },
+    { label: "LinkedIn", href: "" },
+    { label: "Vimeo", href: "" },
+];
+
 export const metadata: Metadata = {
     title: "Contact",
     description: "Contactez Iconik Agency pour toute demande de casting, inscription de talent ou collaboration.",
@@ -90,15 +96,20 @@ export default function ContactPage() {
                                             Réseaux sociaux
                                         </p>
                                         <div className="flex gap-6">
-                                            {["Instagram", "LinkedIn", "Vimeo"].map((social) => (
+                                            {SOCIAL_LINKS.filter(s => s.href).map((social) => (
                                                 <a
-                                                    key={social}
-                                                    href="#"
+                                                    key={social.label}
+                                                    href={social.href}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
                                                     className="text-sm text-foreground no-underline hover:opacity-70 transition-opacity border-b border-foreground pb-[2px]"
                                                 >
-                                                    {social}
+                                                    {social.label}
                                                 </a>
                                             ))}
+                                            {SOCIAL_LINKS.every(s => !s.href) && (
+                                                <p className="text-sm text-muted">À venir</p>
+                                            )}
                                         </div>
                                     </div>
                                 </AnimateOnScroll>

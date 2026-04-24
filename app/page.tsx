@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { supabase, BUSINESS_ID } from "@/lib/supabase";
+import { mapPersonToTalent } from "@/lib/talent-utils";
 import TalentCard from "./components/TalentCard";
 import AnimateOnScroll from "./components/AnimateOnScroll";
 import ReviewsSection from "./components/ReviewsSection";
@@ -22,8 +23,8 @@ export default async function HomePage() {
             .order("year", { ascending: false })
             .order("display_order", { ascending: true })
             .limit(3),
-        (supabase as any)
-            .from("blog")
+        supabase
+            .from("blog" as any)
             .select("id, slug, title, date, category, excerpt")
             .eq("business_id", BUSINESS_ID)
             .eq("active", true)
@@ -31,24 +32,7 @@ export default async function HomePage() {
             .limit(3),
     ]);
 
-    const featuredTalents = (peopleData || []).map((t) => ({
-        slug: t.id,
-        firstName: t.first_name || t.name.split(" ")[0],
-        lastName: t.last_name || t.name.split(" ").slice(1).join(" "),
-        age: t.age || 0,
-        dateOfBirth: t.date_of_birth || "",
-        gender: (t.gender as "Féminin" | "Masculin") || "Féminin",
-        height: t.height || "",
-        eyeColor: t.eye_color || "",
-        hairColor: t.hair_color || "",
-        languages: t.languages || [],
-        skills: t.skills || [],
-        bio: t.description || "",
-        category: (t.specialty as "Enfant" | "Adolescent" | "Jeune Adulte") || "Enfant",
-        initials: `${(t.first_name || t.name)[0]}${t.last_name?.[0] || ""}`.toUpperCase(),
-        projects: t.projects || [],
-        photoUrl: t.photo_url,
-    }));
+    const featuredTalents = (peopleData || []).map(mapPersonToTalent);
 
     const featuredProjects = projectsData || [];
     const latestNews = (newsData || []) as { id: string; slug: string; title: string; date: string; category: string; excerpt: string }[];
@@ -84,6 +68,12 @@ export default async function HomePage() {
                             Nous contacter
                         </Link>
                     </div>
+                </div>
+
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce" aria-hidden="true">
+                    <svg className="w-5 h-5 text-muted/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
                 </div>
             </section>
 
@@ -260,6 +250,7 @@ export default async function HomePage() {
                                                     src={project.photo_url}
                                                     alt={project.title}
                                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                    loading="lazy"
                                                 />
                                             ) : (
                                                 <div className="photo-placeholder-dark photo-placeholder w-full h-full">

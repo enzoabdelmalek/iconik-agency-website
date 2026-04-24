@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Talent } from "@/app/data/talents";
+import type { Talent } from "@/lib/talent-utils";
 
 interface TalentCardProps {
     talent: Talent;
@@ -12,7 +12,7 @@ export default function TalentCard({ talent }: TalentCardProps) {
                 {/* Photo */}
                 <div className="photo-placeholder talent-image aspect-[3/4] w-full">
                     {talent.photoUrl ? (
-                        <img src={talent.photoUrl} alt={`${talent.firstName} ${talent.lastName}`} className="w-full h-full object-cover" />
+                        <img src={talent.photoUrl} alt={`${talent.firstName} ${talent.lastName}`} className="w-full h-full object-cover" loading="lazy" />
                     ) : (
                         <span className="relative z-10 text-2xl md:text-3xl">{talent.initials}</span>
                     )}

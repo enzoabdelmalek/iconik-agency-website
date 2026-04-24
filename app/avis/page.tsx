@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 import ReviewForm from "@/app/components/ReviewForm";
+import Stars from "@/app/components/Stars";
 
 export const metadata: Metadata = {
     title: "Avis",
@@ -19,23 +20,9 @@ interface Review {
     created_at: string;
 }
 
-function Stars({ rating }: { rating: number }) {
-    return (
-        <div className="flex gap-0.5">
-            {[1, 2, 3, 4, 5].map((s) => (
-                <svg key={s} className="w-3.5 h-3.5" viewBox="0 0 24 24"
-                    fill={rating >= s ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5"
-                    style={{ color: rating >= s ? "var(--foreground)" : "var(--muted)" }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                </svg>
-            ))}
-        </div>
-    );
-}
-
 export default async function AvisPage() {
-    const { data: reviews } = await (supabase as any)
-        .from("reviews")
+    const { data: reviews } = await supabase
+        .from("reviews" as any)
         .select("id, author_name, rating, comment, reply, created_at")
         .eq("business_id", BUSINESS_ID)
         .order("created_at", { ascending: false });
@@ -69,7 +56,7 @@ export default async function AvisPage() {
                             <div className="flex flex-col md:flex-row gap-12 items-start md:items-center mb-20 pb-20 border-b border-border">
                                 <div>
                                     <p className="text-7xl font-serif mb-3">{avgRating}</p>
-                                    <Stars rating={Math.round(parseFloat(avgRating))} />
+                                    <Stars rating={Math.round(parseFloat(avgRating))} size="md" />
                                     <p className="text-xs tracking-[0.15em] uppercase text-muted mt-2">{list.length} avis</p>
                                 </div>
                                 <div className="flex flex-col gap-2 flex-1 max-w-xs">
@@ -95,7 +82,12 @@ export default async function AvisPage() {
                                 <h2 className="text-3xl md:text-4xl mb-8">Tous les avis</h2>
                             </AnimateOnScroll>
                             {list.length === 0 ? (
-                                <p className="text-muted text-sm">Soyez le premier à laisser un avis.</p>
+                                <div className="py-16 flex flex-col items-start gap-3">
+                                    <svg className="w-8 h-8 text-muted/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" />
+                                    </svg>
+                                    <p className="text-muted text-sm">Soyez le premier à laisser un avis.</p>
+                                </div>
                             ) : (
                                 list.map((review, i) => (
                                     <AnimateOnScroll key={review.id} delay={(Math.min(i + 1, 4)) as 1 | 2 | 3 | 4}>

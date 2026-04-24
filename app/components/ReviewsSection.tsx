@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import AnimateOnScroll from "./AnimateOnScroll";
+import Stars from "./Stars";
 
 interface Review {
     id: string;
@@ -9,31 +10,17 @@ interface Review {
     comment: string;
 }
 
-function Stars({ rating }: { rating: number }) {
-    return (
-        <div className="flex gap-0.5">
-            {[1, 2, 3, 4, 5].map((s) => (
-                <svg key={s} className="w-3 h-3" viewBox="0 0 24 24"
-                    fill={rating >= s ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5"
-                    style={{ color: rating >= s ? "var(--foreground)" : "var(--muted)" }}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                </svg>
-            ))}
-        </div>
-    );
-}
-
 export default async function ReviewsSection() {
     const [{ data: reviews }, { data: allReviews }] = await Promise.all([
-        (supabase as any)
-            .from("reviews")
+        supabase
+            .from("reviews" as any)
             .select("id, author_name, rating, comment")
             .eq("business_id", BUSINESS_ID)
             .gte("rating", 4)
             .order("created_at", { ascending: false })
             .limit(3),
-        (supabase as any)
-            .from("reviews")
+        supabase
+            .from("reviews" as any)
             .select("rating")
             .eq("business_id", BUSINESS_ID),
     ]);
@@ -58,7 +45,7 @@ export default async function ReviewsSection() {
                             <h2 className="text-4xl md:text-5xl">
                                 Ce que disent
                                 <br />
-                                nos familles
+                                nos clients
                             </h2>
                         </AnimateOnScroll>
                         {avgRating && (
