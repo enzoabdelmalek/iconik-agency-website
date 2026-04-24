@@ -5,7 +5,7 @@ import AnimateOnScroll from "./components/AnimateOnScroll";
 import ReviewsSection from "./components/ReviewsSection";
 
 export default async function HomePage() {
-    const [{ data: peopleData }, { data: projectsData }] = await Promise.all([
+    const [{ data: peopleData }, { data: projectsData }, { data: newsData }] = await Promise.all([
         supabase
             .from("people")
             .select("id, name, first_name, last_name, age, specialty, skills, photo_url, date_of_birth, gender, height, eye_color, hair_color, languages, projects, description")
@@ -21,6 +21,13 @@ export default async function HomePage() {
             .neq("active", false)
             .order("year", { ascending: false })
             .order("display_order", { ascending: true })
+            .limit(3),
+        (supabase as any)
+            .from("blog")
+            .select("id, slug, title, date, category, excerpt")
+            .eq("business_id", BUSINESS_ID)
+            .eq("active", true)
+            .order("created_at", { ascending: false })
             .limit(3),
     ]);
 
@@ -44,6 +51,7 @@ export default async function HomePage() {
     }));
 
     const featuredProjects = projectsData || [];
+    const latestNews = (newsData || []) as { id: string; slug: string; title: string; date: string; category: string; excerpt: string }[];
 
     return (
         <>
@@ -279,6 +287,46 @@ export default async function HomePage() {
                                         <h3 className="text-xl md:text-2xl group-hover:opacity-70 transition-opacity">
                                             {project.title}
                                         </h3>
+                                    </Link>
+                                </AnimateOnScroll>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* ─── ACTUALITÉS ─── */}
+            {latestNews.length > 0 && (
+                <section className="py-24 md:py-32 bg-surface">
+                    <div className="max-w-[1400px] mx-auto px-8 md:px-12">
+                        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
+                            <div>
+                                <AnimateOnScroll>
+                                    <p className="text-xs tracking-[0.2em] uppercase text-muted mb-4">Actualités</p>
+                                </AnimateOnScroll>
+                                <AnimateOnScroll delay={1}>
+                                    <h2 className="text-4xl md:text-5xl">Dernières nouvelles</h2>
+                                </AnimateOnScroll>
+                            </div>
+                            <AnimateOnScroll delay={2}>
+                                <Link href="/actualites" className="mt-6 md:mt-0 text-sm tracking-[0.1em] uppercase text-muted hover:text-foreground transition-colors no-underline border-b border-muted hover:border-foreground pb-1">
+                                    Toutes les actualités →
+                                </Link>
+                            </AnimateOnScroll>
+                        </div>
+
+                        <div className="flex flex-col">
+                            {latestNews.map((item, index) => (
+                                <AnimateOnScroll key={item.id} delay={(index + 1) as 1 | 2 | 3}>
+                                    <Link
+                                        href={`/actualites/${item.slug}`}
+                                        className={`flex flex-col md:flex-row md:items-center md:justify-between gap-4 py-8 group no-underline ${index < latestNews.length - 1 ? "border-b border-border" : ""}`}
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <span className="text-xs tracking-[0.1em] uppercase text-muted px-3 py-1 border border-border shrink-0">{item.category}</span>
+                                            <h3 className="text-lg md:text-xl group-hover:opacity-60 transition-opacity">{item.title}</h3>
+                                        </div>
+                                        <span className="text-xs text-muted shrink-0">{item.date}</span>
                                     </Link>
                                 </AnimateOnScroll>
                             ))}

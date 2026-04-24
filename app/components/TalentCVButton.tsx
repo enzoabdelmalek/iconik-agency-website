@@ -289,7 +289,7 @@ export default function TalentCVButton({ talent }: Props) {
         doc.setFontSize(7);
         doc.setFont("helvetica", "normal");
         doc.setTextColor(...GREY);
-        doc.text("ICONIK AGENCY  ·  www.iconikagency.fr  ·  contact@iconikagency.fr", W / 2, y, { align: "center", charSpace: 0.5 });
+        doc.text("ICONIK AGENCY  ·  www.iconikagency.fr  ·  hello@iconikagency.com", W / 2, y, { align: "center", charSpace: 0.5 });
 
         // ─── Save ───
         const fileName = `${talent.firstName.toLowerCase()}-${talent.lastName.toLowerCase()}-iconik.pdf`;

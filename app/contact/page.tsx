@@ -51,9 +51,7 @@ export default function ContactPage() {
                                             Adresse
                                         </p>
                                         <p className="leading-relaxed">
-                                            12 Rue du Faubourg Saint-Honoré
-                                            <br />
-                                            75008 Paris, France
+                                            Mantes-la-Jolie, France
                                         </p>
                                     </div>
                                 </AnimateOnScroll>
@@ -64,10 +62,10 @@ export default function ContactPage() {
                                             Email
                                         </p>
                                         <a
-                                            href="mailto:contact@iconikagency.fr"
+                                            href="mailto:hello@iconikagency.com"
                                             className="text-foreground no-underline hover:opacity-70 transition-opacity"
                                         >
-                                            contact@iconikagency.fr
+                                            hello@iconikagency.com
                                         </a>
                                     </div>
                                 </AnimateOnScroll>
@@ -78,28 +76,15 @@ export default function ContactPage() {
                                             Téléphone
                                         </p>
                                         <a
-                                            href="tel:+33142000000"
+                                            href="tel:+33621636179"
                                             className="text-foreground no-underline hover:opacity-70 transition-opacity"
                                         >
-                                            +33 1 42 00 00 00
+                                            +33 6 21 63 61 79
                                         </a>
                                     </div>
                                 </AnimateOnScroll>
 
                                 <AnimateOnScroll delay={4}>
-                                    <div>
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-2">
-                                            Horaires
-                                        </p>
-                                        <p className="leading-relaxed">
-                                            Lundi — Vendredi : 9h — 18h
-                                            <br />
-                                            Samedi : Sur rendez-vous
-                                        </p>
-                                    </div>
-                                </AnimateOnScroll>
-
-                                <AnimateOnScroll delay={5}>
                                     <div>
                                         <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">
                                             Réseaux sociaux

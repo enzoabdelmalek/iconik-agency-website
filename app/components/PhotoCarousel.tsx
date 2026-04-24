@@ -2,18 +2,24 @@
 
 import { useState } from "react";
 
-export default function PhotoCarousel({ photos, name }: { photos: string[]; name: string }) {
+export default function PhotoCarousel({ photos, name, initials }: { photos: string[]; name: string; initials?: string }) {
     const [current, setCurrent] = useState(0);
 
     const prev = () => setCurrent(i => (i - 1 + photos.length) % photos.length);
     const next = () => setCurrent(i => (i + 1) % photos.length);
 
-    if (photos.length === 0) return null;
+    if (photos.length === 0) {
+        return (
+            <div className="photo-placeholder aspect-[3/4] w-full flex items-center justify-center">
+                <span className="relative z-10 text-5xl md:text-6xl">{initials}</span>
+            </div>
+        );
+    }
 
     return (
         <div className="relative w-full">
             {/* Main image */}
-            <div className="relative aspect-[4/5] overflow-hidden bg-surface">
+            <div className="relative aspect-[3/4] overflow-hidden bg-surface">
                 <img
                     src={photos[current]}
                     alt={`${name} — ${current + 1}`}

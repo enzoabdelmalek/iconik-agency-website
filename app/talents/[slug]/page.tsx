@@ -9,10 +9,10 @@ import type { Metadata } from "next";
 export async function generateStaticParams() {
     const { data } = await supabase
         .from("people")
-        .select("id")
+        .select("id, slug")
         .eq("business_id", BUSINESS_ID)
         .eq("active", true);
-    return (data || []).map(t => ({ slug: t.id }));
+    return (data || []).map((t: any) => ({ slug: t.slug || t.id }));
 }
 
 export async function generateMetadata({
@@ -24,7 +24,7 @@ export async function generateMetadata({
     const { data: talent } = await supabase
         .from("people")
         .select("name, first_name, last_name, description")
-        .eq("id", slug)
+        .eq("slug", slug)
         .single();
     if (!talent) return {};
     const fullName = talent.first_name && talent.last_name
@@ -45,7 +45,7 @@ export default async function TalentDetailPage({
     const { data: talent } = await supabase
         .from("people")
         .select("*")
-        .eq("id", slug)
+        .eq("slug", slug)
         .eq("business_id", BUSINESS_ID)
         .single();
 
@@ -54,7 +54,7 @@ export default async function TalentDetailPage({
     const { data: projectAssignments } = await supabase
         .from("people_projects")
         .select("role, projects(id, title, type, year, photo_url)")
-        .eq("person_id", slug);
+        .eq("person_id", talent.id);
 
     const talentProjects = (projectAssignments || []).map((a: any) => ({
         ...a.projects,
@@ -81,14 +81,17 @@ export default async function TalentDetailPage({
             <section className="pb-24 md:pb-32">
                 <div className="max-w-[1400px] mx-auto px-8 md:px-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-                        {/* Photo */}
+                        {/* Carousel */}
                         <AnimateOnScroll>
-                            <div className="photo-placeholder aspect-[3/4] w-full max-w-lg mx-auto lg:mx-0">
-                                {talent.photo_url ? (
-                                    <img src={talent.photo_url} alt={talent.name} className="w-full h-full object-cover" />
-                                ) : (
-                                    <span className="relative z-10 text-5xl md:text-6xl">{initials}</span>
-                                )}
+                            <div className="max-w-lg mx-auto lg:mx-0">
+                                <PhotoCarousel
+                                    photos={[
+                                        ...(talent.photo_url ? [talent.photo_url] : []),
+                                        ...(talent.photos || []),
+                                    ]}
+                                    name={`${firstName} ${lastName}`}
+                                    initials={initials}
+                                />
                             </div>
                         </AnimateOnScroll>
 
@@ -107,12 +110,6 @@ export default async function TalentDetailPage({
 
                             <AnimateOnScroll delay={2}>
                                 <div className="section-divider" />
-                            </AnimateOnScroll>
-
-                            <AnimateOnScroll delay={2}>
-                                <p className="text-muted leading-relaxed text-lg mb-10">
-                                    {talent.description}
-                                </p>
                             </AnimateOnScroll>
 
                             {/* Details grid */}
@@ -193,8 +190,19 @@ export default async function TalentDetailPage({
                                 </AnimateOnScroll>
                             )}
 
+                            {/* Description */}
+                            {talent.description && (
+                                <AnimateOnScroll delay={5}>
+                                    <div className="text-muted leading-relaxed text-lg mb-10 flex flex-col gap-4">
+                                        {(talent.description || "").split("\n").filter(Boolean).map((line: string, i: number) => (
+                                            <p key={i}>{line}</p>
+                                        ))}
+                                    </div>
+                                </AnimateOnScroll>
+                            )}
+
                             {/* CTA */}
-                            <AnimateOnScroll delay={5}>
+                            <AnimateOnScroll delay={6}>
                                 <div className="flex flex-wrap items-center gap-4">
                                     <Link href="/contact" className="btn-primary w-fit">
                                         <span>Contacter l&apos;agence</span>
@@ -221,19 +229,6 @@ export default async function TalentDetailPage({
                 </div>
             </section>
 
-            {/* Gallery */}
-            {talent.photos?.length > 0 && (
-                <section className="py-24 md:py-32 bg-surface">
-                    <div className="max-w-[1400px] mx-auto px-8 md:px-12">
-                        <AnimateOnScroll>
-                            <h2 className="text-3xl md:text-4xl mb-12">Book photo</h2>
-                        </AnimateOnScroll>
-                        <div className="max-w-lg mx-auto lg:mx-0">
-                            <PhotoCarousel photos={talent.photos} name={`${firstName} ${lastName}`} />
-                        </div>
-                    </div>
-                </section>
-            )}
         </>
     );
 }

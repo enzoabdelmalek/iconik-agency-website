@@ -4,10 +4,9 @@ const navLinks = [
     { href: "/talents", label: "Talents" },
     { href: "/projets", label: "Projets" },
     { href: "/a-propos", label: "À propos" },
-    { href: "/equipe", label: "Équipe" },
     { href: "/actualites", label: "Actualités" },
-    { href: "/contact", label: "Contact" },
     { href: "/avis", label: "Avis" },
+    { href: "/contact", label: "Contact" },
 ];
 
 export default function Footer() {
@@ -59,22 +58,17 @@ export default function Footer() {
                             </p>
                             <div className="flex flex-col gap-5 text-[0.9375rem] text-background/60">
                                 <a
-                                    href="mailto:contact@iconik-agency.com"
+                                    href="mailto:hello@iconikagency.com"
                                     className="no-underline text-background/60 hover:text-background transition-colors duration-300"
                                 >
-                                    contact@iconik-agency.com
+                                    hello@iconikagency.com
                                 </a>
                                 <a
-                                    href="tel:+33142000000"
+                                    href="tel:+33621636179"
                                     className="no-underline text-background/60 hover:text-background transition-colors duration-300"
                                 >
-                                    +33 1 42 00 00 00
+                                    +33 6 21 63 61 79
                                 </a>
-                                <p className="leading-relaxed">
-                                    12 Rue du Faubourg Saint-Honoré
-                                    <br />
-                                    75008 Paris, France
-                                </p>
                             </div>
                         </div>
                     </div>

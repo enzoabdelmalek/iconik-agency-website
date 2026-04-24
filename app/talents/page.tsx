@@ -104,7 +104,7 @@ export default function TalentsPage() {
                                     delay={((index % 4) + 1) as 1 | 2 | 3 | 4}
                                 >
                                     <TalentCard talent={{
-                                        slug: talent.id,
+                                        slug: (talent as any).slug || talent.id,
                                         firstName: talent.first_name || talent.name.split(" ")[0],
                                         lastName: talent.last_name || talent.name.split(" ").slice(1).join(" "),
                                         age: talent.age || 0,

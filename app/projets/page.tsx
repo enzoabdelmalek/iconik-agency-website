@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 interface Talent {
     id: string;
+    slug: string | null;
     name: string;
     first_name: string | null;
     last_name: string | null;
@@ -29,7 +30,7 @@ interface Project {
 export default async function ProjetsPage() {
     const { data: projects } = await supabase
         .from("projects")
-        .select("id, title, type, year, description, photo_url, people_projects(people(id, name, first_name, last_name))")
+        .select("id, title, type, year, description, photo_url, people_projects(people(id, slug, name, first_name, last_name))")
         .eq("business_id", BUSINESS_ID)
         .neq("active", false)
         .order("year", { ascending: false })
@@ -115,7 +116,7 @@ export default async function ProjetsPage() {
                                                             ? `${t.first_name} ${t.last_name}`
                                                             : t.name;
                                                         return (
-                                                            <Link key={t.id} href={`/talents/${t.id}`}
+                                                            <Link key={t.id} href={`/talents/${t.slug || t.id}`}
                                                                 className="text-xs tracking-[0.05em] px-3 py-1 border border-border text-muted hover:text-foreground hover:border-foreground transition-colors no-underline">
                                                                 {name}
                                                             </Link>

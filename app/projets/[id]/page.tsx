@@ -70,7 +70,7 @@ export default async function ProjetDetailPage({
     // Fetch talents assigned to this project
     const { data: assignments } = await supabase
         .from("people_projects")
-        .select("role, people(id, name, first_name, last_name, photo_url, specialty)")
+        .select("role, people(id, slug, name, first_name, last_name, photo_url, specialty)")
         .eq("project_id", id);
 
     const talents = (assignments || []).map((a: any) => ({
@@ -181,7 +181,7 @@ export default async function ProjetDetailPage({
                                 const initials = `${firstName[0]}${lastName?.[0] || ""}`.toUpperCase();
                                 return (
                                     <AnimateOnScroll key={talent.id} delay={((index % 4) + 1) as 1 | 2 | 3 | 4}>
-                                        <Link href={`/talents/${talent.id}`} className="block no-underline group">
+                                        <Link href={`/talents/${talent.slug || talent.id}`} className="block no-underline group">
                                             <div className="photo-placeholder aspect-[3/4] w-full mb-3 group-hover:opacity-90 transition-opacity">
                                                 {talent.photo_url ? (
                                                     <img

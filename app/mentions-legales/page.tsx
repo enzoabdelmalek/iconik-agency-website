@@ -29,16 +29,9 @@ export default function MentionsLegalesPage() {
                             <p className="mt-2">
                                 <strong>Iconik Agency</strong>
                                 <br />
-                                SARL au capital de 10 000 €<br />
-                                Siège social : 12 Rue du Faubourg Saint-Honoré, 75008 Paris
+                                Directrice de la publication : Aïssata Diaw
                                 <br />
-                                RCS Paris B 000 000 000
-                                <br />
-                                Numéro de TVA intracommunautaire : FR 00 000000000
-                                <br />
-                                Directrice de la publication : Sophie Marchand
-                                <br />
-                                Contact : contact@iconik-agency.com
+                                Contact : hello@iconikagency.com
                             </p>
                         </div>
 
@@ -88,7 +81,7 @@ export default function MentionsLegalesPage() {
                             </p>
                             <p className="mt-2">
                                 Pour exercer vos droits, contactez-nous à :{" "}
-                                <strong>contact@iconik-agency.com</strong>
+                                <strong>hello@iconikagency.com</strong>
                             </p>
                         </div>
 
