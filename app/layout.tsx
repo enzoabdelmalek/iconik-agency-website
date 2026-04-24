@@ -17,13 +17,17 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+const siteUrl = "https://www.iconikagency.fr";
+const defaultDescription =
+  "Iconik Agency est une agence artistique parisienne dédiée aux jeunes comédiens. Nous révélons et accompagnons les talents de demain pour le cinéma, la télévision et le théâtre.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Iconik Agency — Agence de Jeunes Comédiens",
     template: "%s | Iconik Agency",
   },
-  description:
-    "Iconik Agency est une agence artistique parisienne dédiée aux jeunes comédiens. Nous révélons et accompagnons les talents de demain pour le cinéma, la télévision et le théâtre.",
+  description: defaultDescription,
   keywords: [
     "agence comédiens",
     "jeunes acteurs",
@@ -31,6 +35,19 @@ export const metadata: Metadata = {
     "agence artistique Paris",
     "comédiens adolescents",
   ],
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: siteUrl,
+    siteName: "Iconik Agency",
+    title: "Iconik Agency — Agence de Jeunes Comédiens",
+    description: defaultDescription,
+  },
+  twitter: {
+    card: "summary",
+    title: "Iconik Agency — Agence de Jeunes Comédiens",
+    description: "Agence artistique parisienne dédiée aux jeunes comédiens pour le cinéma, la télévision et le théâtre.",
+  },
 };
 
 export default function RootLayout({

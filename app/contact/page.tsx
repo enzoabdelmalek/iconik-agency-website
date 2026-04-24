@@ -11,6 +11,18 @@ const SOCIAL_LINKS = [
 export const metadata: Metadata = {
     title: "Contact",
     description: "Contactez Iconik Agency pour toute demande de casting, inscription de talent ou collaboration.",
+    alternates: { canonical: "https://www.iconikagency.fr/contact" },
+    openGraph: {
+        type: "website",
+        url: "https://www.iconikagency.fr/contact",
+        title: "Contact | Iconik Agency",
+        description: "Contactez Iconik Agency pour toute demande de casting, inscription de talent ou collaboration.",
+    },
+    twitter: {
+        card: "summary",
+        title: "Contact | Iconik Agency",
+        description: "Contactez Iconik Agency pour toute demande de casting ou collaboration.",
+    },
 };
 
 export default function ContactPage() {

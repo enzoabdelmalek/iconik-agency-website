@@ -23,16 +23,32 @@ export async function generateMetadata({
     const { slug } = await params;
     const { data: talent } = await supabase
         .from("people")
-        .select("name, first_name, last_name, description")
+        .select("name, first_name, last_name, description, photo_url")
         .or(`slug.eq.${slug},id.eq.${slug}`)
         .single();
     if (!talent) return {};
     const fullName = talent.first_name && talent.last_name
         ? `${talent.first_name} ${talent.last_name}`
         : talent.name;
+    const description = talent.description?.slice(0, 160) || `${fullName} — talent représenté par Iconik Agency`;
+    const url = `https://www.iconikagency.fr/talents/${slug}`;
     return {
         title: fullName,
-        description: talent.description?.slice(0, 160) || "",
+        description,
+        alternates: { canonical: url },
+        openGraph: {
+            type: "profile",
+            url,
+            title: `${fullName} | Iconik Agency`,
+            description,
+            images: talent.photo_url ? [{ url: talent.photo_url, alt: fullName }] : [],
+        },
+        twitter: {
+            card: talent.photo_url ? "summary_large_image" : "summary",
+            title: `${fullName} | Iconik Agency`,
+            description,
+            images: talent.photo_url ? [talent.photo_url] : [],
+        },
     };
 }
 

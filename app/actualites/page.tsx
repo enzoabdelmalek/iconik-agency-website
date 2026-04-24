@@ -7,6 +7,18 @@ export const metadata: Metadata = {
     title: "Actualités",
     description:
         "Suivez les dernières actualités d'Iconik Agency : projets, festivals, partenariats et succès de nos jeunes talents.",
+    alternates: { canonical: "https://www.iconikagency.fr/actualites" },
+    openGraph: {
+        type: "website",
+        url: "https://www.iconikagency.fr/actualites",
+        title: "Actualités | Iconik Agency",
+        description: "Suivez les dernières actualités d'Iconik Agency : projets, festivals, partenariats et succès de nos jeunes talents.",
+    },
+    twitter: {
+        card: "summary",
+        title: "Actualités | Iconik Agency",
+        description: "Les dernières nouvelles de l'agence et de nos talents.",
+    },
 };
 
 export const revalidate = 60;

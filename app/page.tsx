@@ -1,9 +1,29 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import { mapPersonToTalent } from "@/lib/talent-utils";
 import TalentCard from "./components/TalentCard";
 import AnimateOnScroll from "./components/AnimateOnScroll";
 import ReviewsSection from "./components/ReviewsSection";
+
+export const metadata: Metadata = {
+    title: "Iconik Agency — Agence de Jeunes Comédiens à Paris",
+    description:
+        "Iconik Agency est une agence artistique parisienne dédiée aux jeunes comédiens. Nous révélons et accompagnons les talents de demain pour le cinéma, la télévision et le théâtre.",
+    alternates: { canonical: "https://www.iconikagency.fr" },
+    openGraph: {
+        type: "website",
+        url: "https://www.iconikagency.fr",
+        title: "Iconik Agency — Agence de Jeunes Comédiens à Paris",
+        description:
+            "Agence artistique parisienne dédiée aux jeunes comédiens pour le cinéma, la télévision, le théâtre et la publicité.",
+    },
+    twitter: {
+        card: "summary",
+        title: "Iconik Agency — Agence de Jeunes Comédiens à Paris",
+        description: "Agence artistique parisienne dédiée aux jeunes comédiens.",
+    },
+};
 
 export default async function HomePage() {
     const [{ data: peopleData }, { data: projectsData }, { data: newsData }] = await Promise.all([

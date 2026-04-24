@@ -41,13 +41,29 @@ export async function generateMetadata({
     const { id } = await params;
     const { data } = await supabase
         .from("projects")
-        .select("title, description")
+        .select("title, description, photo_url")
         .eq("id", id)
         .single();
     if (!data) return {};
+    const description = data.description?.slice(0, 160) || "";
+    const url = `https://www.iconikagency.fr/projets/${id}`;
     return {
         title: data.title,
-        description: data.description?.slice(0, 160) || "",
+        description,
+        alternates: { canonical: url },
+        openGraph: {
+            type: "article",
+            url,
+            title: `${data.title} | Iconik Agency`,
+            description,
+            images: data.photo_url ? [{ url: data.photo_url, alt: data.title }] : [],
+        },
+        twitter: {
+            card: data.photo_url ? "summary_large_image" : "summary",
+            title: `${data.title} | Iconik Agency`,
+            description,
+            images: data.photo_url ? [data.photo_url] : [],
+        },
     };
 }
 

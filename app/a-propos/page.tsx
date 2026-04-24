@@ -6,6 +6,18 @@ export const metadata: Metadata = {
     title: "À propos",
     description:
         "Découvrez l'histoire, la philosophie et les valeurs d'Iconik Agency, agence parisienne dédiée aux jeunes comédiens.",
+    alternates: { canonical: "https://www.iconikagency.fr/a-propos" },
+    openGraph: {
+        type: "website",
+        url: "https://www.iconikagency.fr/a-propos",
+        title: "À propos | Iconik Agency",
+        description: "Découvrez l'histoire, la philosophie et les valeurs d'Iconik Agency, agence parisienne dédiée aux jeunes comédiens.",
+    },
+    twitter: {
+        card: "summary",
+        title: "À propos | Iconik Agency",
+        description: "Découvrez l'histoire, la philosophie et les valeurs d'Iconik Agency.",
+    },
 };
 
 const values = [

@@ -7,6 +7,18 @@ export const metadata: Metadata = {
     title: "Projets",
     description:
         "Découvrez les films, séries, publicités et pièces de théâtre auxquels ont participé les talents d'Iconik Agency.",
+    alternates: { canonical: "https://www.iconikagency.fr/projets" },
+    openGraph: {
+        type: "website",
+        url: "https://www.iconikagency.fr/projets",
+        title: "Projets | Iconik Agency",
+        description: "Découvrez les films, séries, publicités et pièces de théâtre auxquels ont participé les talents d'Iconik Agency.",
+    },
+    twitter: {
+        card: "summary",
+        title: "Projets | Iconik Agency",
+        description: "Films, séries, publicités, théâtre — nos talents brillent sur tous les écrans.",
+    },
 };
 
 interface Talent {

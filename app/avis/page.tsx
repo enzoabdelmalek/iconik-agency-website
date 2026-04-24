@@ -7,6 +7,18 @@ import Stars from "@/app/components/Stars";
 export const metadata: Metadata = {
     title: "Avis",
     description: "Découvrez les avis sur Iconik Agency et partagez votre expérience.",
+    alternates: { canonical: "https://www.iconikagency.fr/avis" },
+    openGraph: {
+        type: "website",
+        url: "https://www.iconikagency.fr/avis",
+        title: "Avis | Iconik Agency",
+        description: "Découvrez les avis sur Iconik Agency et partagez votre expérience.",
+    },
+    twitter: {
+        card: "summary",
+        title: "Avis | Iconik Agency",
+        description: "Découvrez les avis sur Iconik Agency et partagez votre expérience.",
+    },
 };
 
 export const revalidate = 60;

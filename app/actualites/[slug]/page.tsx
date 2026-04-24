@@ -30,9 +30,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const { slug } = await params;
     const post = await getPost(slug);
     if (!post) return { title: "Article introuvable" };
+    const url = `https://www.iconikagency.fr/actualites/${slug}`;
     return {
         title: post.title,
         description: post.excerpt || undefined,
+        alternates: { canonical: url },
+        openGraph: {
+            type: "article",
+            url,
+            title: `${post.title} | Iconik Agency`,
+            description: post.excerpt || undefined,
+        },
+        twitter: {
+            card: "summary",
+            title: `${post.title} | Iconik Agency`,
+            description: post.excerpt || undefined,
+        },
     };
 }
 
