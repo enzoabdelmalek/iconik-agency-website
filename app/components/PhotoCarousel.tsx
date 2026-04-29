@@ -27,24 +27,17 @@ export default function PhotoCarousel({ photos, name, initials }: { photos: stri
                 />
 
                 {/* Counter */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs"
-                    style={{ background: "rgba(0,0,0,0.5)", color: "#ffffff" }}>
+                <div className="carousel-counter">
                     {current + 1} / {photos.length}
                 </div>
 
                 {/* Arrows */}
                 {photos.length > 1 && (
                     <>
-                        <button onClick={prev}
-                            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all"
-                            style={{ background: "rgba(0,0,0,0.4)", color: "#ffffff" }}
-                            aria-label="Photo précédente">
+                        <button onClick={prev} className="carousel-btn carousel-btn-prev" aria-label="Photo précédente">
                             ←
                         </button>
-                        <button onClick={next}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all"
-                            style={{ background: "rgba(0,0,0,0.4)", color: "#ffffff" }}
-                            aria-label="Photo suivante">
+                        <button onClick={next} className="carousel-btn carousel-btn-next" aria-label="Photo suivante">
                             →
                         </button>
                     </>
@@ -56,8 +49,7 @@ export default function PhotoCarousel({ photos, name, initials }: { photos: stri
                 <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
                     {photos.map((url, i) => (
                         <button key={i} onClick={() => setCurrent(i)}
-                            className="shrink-0 w-16 h-16 overflow-hidden transition-all"
-                            style={{ opacity: current === i ? 1 : 0.4, outline: current === i ? "2px solid white" : "none" }}>
+                            className={`carousel-thumb${current === i ? " active" : ""}`}>
                             <img src={url} alt={`thumb-${i}`} className="w-full h-full object-cover" />
                         </button>
                     ))}

@@ -76,7 +76,7 @@ export default function ReviewForm() {
                     value={form.author_name}
                     onChange={(e) => setForm(p => ({ ...p, author_name: e.target.value }))}
                     placeholder="Jean"
-                    className="w-full bg-transparent border-b border-border text-foreground py-2 text-sm outline-none focus:border-foreground transition-colors"
+                    className="form-input"
                 />
             </div>
 
@@ -91,7 +91,7 @@ export default function ReviewForm() {
                     value={form.email}
                     onChange={(e) => setForm(p => ({ ...p, email: e.target.value }))}
                     placeholder="jean@exemple.fr"
-                    className="w-full bg-transparent border-b border-border text-foreground py-2 text-sm outline-none focus:border-foreground transition-colors"
+                    className="form-input"
                 />
             </div>
 
@@ -103,7 +103,7 @@ export default function ReviewForm() {
                     value={form.comment}
                     onChange={(e) => setForm(p => ({ ...p, comment: e.target.value }))}
                     placeholder="Partagez votre expérience..."
-                    className="w-full bg-transparent border-b border-border text-foreground py-2 text-sm outline-none focus:border-foreground transition-colors resize-none"
+                    className="form-input resize-none"
                 />
             </div>
 

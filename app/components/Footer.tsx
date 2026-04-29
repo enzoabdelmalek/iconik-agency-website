@@ -1,10 +1,6 @@
 import Link from "next/link";
 
-const SOCIAL_LINKS = [
-    { label: "Instagram", href: "" },
-    { label: "LinkedIn", href: "" },
-    { label: "Vimeo", href: "" },
-];
+const SOCIAL_LINKS: { label: string; href: string }[] = [];
 
 const navLinks = [
     { href: "/talents", label: "Talents" },
@@ -85,7 +81,7 @@ export default function Footer() {
             <div className="border-t border-background/10">
                 <div className="max-w-[1400px] mx-auto px-8 md:px-12 py-7 flex flex-col md:flex-row items-center justify-between gap-5">
                     {/* Copyright */}
-                    <p className="text-[0.75rem] text-background/35 tracking-[0.02em]">
+                    <p className="text-[0.75rem] text-background/35 tracking-[0.04em]">
                         © {new Date().getFullYear()} Iconik Agency. Tous droits réservés.
                     </p>
 

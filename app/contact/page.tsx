@@ -2,11 +2,7 @@ import type { Metadata } from "next";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 import ContactForm from "./ContactForm";
 
-const SOCIAL_LINKS = [
-    { label: "Instagram", href: "" },
-    { label: "LinkedIn", href: "" },
-    { label: "Vimeo", href: "" },
-];
+const SOCIAL_LINKS: { label: string; href: string }[] = [];
 
 export const metadata: Metadata = {
     title: "Contact",
@@ -127,14 +123,6 @@ export default function ContactPage() {
                                 </AnimateOnScroll>
                             </div>
 
-                            {/* Map placeholder */}
-                            <AnimateOnScroll delay={5}>
-                                <div className="mt-12 photo-placeholder aspect-[16/9] w-full">
-                                    <span className="relative z-10 text-sm tracking-[0.1em] uppercase">
-                                        Carte — Paris 8ème
-                                    </span>
-                                </div>
-                            </AnimateOnScroll>
                         </div>
                     </div>
                 </div>

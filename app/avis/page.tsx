@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import React from "react";
 import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 import ReviewForm from "@/app/components/ReviewForm";
@@ -48,8 +49,37 @@ export default async function AvisPage() {
         count: list.filter((r) => r.rating === star).length,
     }));
 
+    const jsonLd = avgRating
+        ? {
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: "Iconik Agency",
+              url: "https://www.iconikagency.fr",
+              aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue: avgRating,
+                  reviewCount: list.length,
+                  bestRating: 5,
+                  worstRating: 1,
+              },
+              review: list.slice(0, 10).map((r) => ({
+                  "@type": "Review",
+                  author: { "@type": "Person", name: r.author_name },
+                  reviewRating: { "@type": "Rating", ratingValue: r.rating },
+                  reviewBody: r.comment,
+                  datePublished: r.created_at.slice(0, 10),
+              })),
+          }
+        : null;
+
     return (
         <>
+            {jsonLd && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+            )}
             {/* Header */}
             <section className="page-header bg-surface">
                 <div className="max-w-[1400px] mx-auto px-8 md:px-12">
@@ -76,8 +106,8 @@ export default async function AvisPage() {
                                         <div key={star} className="flex items-center gap-3">
                                             <span className="text-xs text-muted w-2">{star}</span>
                                             <div className="flex-1 bg-border h-[1px] relative">
-                                                <div className="absolute top-0 left-0 h-[1px] bg-foreground transition-all"
-                                                    style={{ width: list.length > 0 ? `${(count / list.length) * 100}%` : "0%" }} />
+                                                <div className="rating-bar absolute top-0 left-0 h-[1px] bg-foreground transition-all"
+                                                    style={{ '--rating-w': list.length > 0 ? `${(count / list.length) * 100}%` : "0%" } as React.CSSProperties} />
                                             </div>
                                             <span className="text-xs text-muted w-4">{count}</span>
                                         </div>

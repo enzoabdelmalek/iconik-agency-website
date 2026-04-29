@@ -57,8 +57,29 @@ export default async function HomePage() {
     const featuredProjects = projectsData || [];
     const latestNews = (newsData || []) as { id: string; slug: string; title: string; date: string; category: string; excerpt: string }[];
 
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        name: "Iconik Agency",
+        description:
+            "Agence artistique dédiée aux jeunes comédiens pour le cinéma, la télévision et le théâtre.",
+        url: "https://www.iconikagency.fr",
+        telephone: "+33621636179",
+        email: "hello@iconikagency.com",
+        address: {
+            "@type": "PostalAddress",
+            addressLocality: "Mantes-la-Jolie",
+            addressCountry: "FR",
+        },
+        sameAs: [],
+    };
+
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             {/* ─── HERO ─── */}
             <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(0,0,0,0.02)_0%,transparent_60%)]" />
@@ -369,11 +390,8 @@ export default async function HomePage() {
                         </p>
                     </AnimateOnScroll>
                     <AnimateOnScroll delay={3}>
-                        <Link
-                            href="/contact"
-                            className="inline-flex items-center gap-2 px-8 py-4 bg-background text-foreground text-[0.8125rem] font-medium tracking-[0.12em] uppercase no-underline hover:bg-background/90 transition-colors duration-300"
-                        >
-                            Prendre contact
+                        <Link href="/contact" className="btn-primary-inverted">
+                            <span>Prendre contact</span>
                         </Link>
                     </AnimateOnScroll>
                 </div>

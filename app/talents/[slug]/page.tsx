@@ -81,8 +81,27 @@ export default async function TalentDetailPage({
     const lastName = talent.last_name || talent.name.split(" ").slice(1).join(" ");
     const initials = `${firstName[0]}${lastName?.[0] || ""}`.toUpperCase();
 
+    const fullName = `${firstName} ${lastName}`.trim();
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: fullName,
+        description: talent.description || `${fullName} — talent représenté par Iconik Agency`,
+        image: talent.photo_url || undefined,
+        url: `https://www.iconikagency.fr/talents/${slug}`,
+        worksFor: {
+            "@type": "Organization",
+            name: "Iconik Agency",
+            url: "https://www.iconikagency.fr",
+        },
+    };
+
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             {/* Back link */}
             <div className="pt-24 pb-4 max-w-[1400px] mx-auto px-8 md:px-12">
                 <Link

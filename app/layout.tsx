@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     description: defaultDescription,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Iconik Agency — Agence de Jeunes Comédiens",
     description: "Agence artistique parisienne dédiée aux jeunes comédiens pour le cinéma, la télévision et le théâtre.",
   },
