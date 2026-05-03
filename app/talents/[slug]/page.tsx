@@ -6,12 +6,14 @@ import PhotoCarousel from "@/app/components/PhotoCarousel";
 import TalentCVButton from "@/app/components/TalentCVButton";
 import type { Metadata } from "next";
 
+const isUUID = (s: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
+
 export async function generateStaticParams() {
     const { data } = await supabase
         .from("people")
         .select("id, slug")
         .eq("business_id", BUSINESS_ID)
-        .eq("active", true);
+        .neq("active", false);
     return (data || []).map((t: any) => ({ slug: t.slug || t.id }));
 }
 
@@ -21,11 +23,11 @@ export async function generateMetadata({
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     const { slug } = await params;
-    const { data: talent } = await supabase
-        .from("people")
-        .select("name, first_name, last_name, description, photo_url")
-        .or(`slug.eq.${slug},id.eq.${slug}`)
-        .single();
+    const metaQuery = supabase.from("people").select("name, first_name, last_name, description, photo_url").eq("business_id", BUSINESS_ID);
+    const { data: talent } = await (isUUID(slug)
+        ? metaQuery.or(`slug.eq.${slug},id.eq.${slug}`)
+        : metaQuery.eq("slug", slug)
+    ).maybeSingle();
     if (!talent) return {};
     const fullName = talent.first_name && talent.last_name
         ? `${talent.first_name} ${talent.last_name}`
@@ -58,12 +60,11 @@ export default async function TalentDetailPage({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
-    const { data: talent } = await supabase
-        .from("people")
-        .select("*")
-        .or(`slug.eq.${slug},id.eq.${slug}`)
-        .eq("business_id", BUSINESS_ID)
-        .single();
+    const baseQuery = supabase.from("people").select("*").eq("business_id", BUSINESS_ID);
+    const { data: talent } = await (isUUID(slug)
+        ? baseQuery.or(`slug.eq.${slug},id.eq.${slug}`)
+        : baseQuery.eq("slug", slug)
+    ).maybeSingle();
 
     if (!talent) notFound();
 
