@@ -85,6 +85,14 @@ export default function Footer() {
                         © {new Date().getFullYear()} Iconik Agency. Tous droits réservés.
                     </p>
 
+                    {/* VWA credit */}
+                    <p className="text-[0.75rem] text-background/25 tracking-[0.04em]">
+                        Développé & designé par{" "}
+                        <a href="https://vibewebagency.fr" target="_blank" rel="noopener noreferrer" className="text-background/40 hover:text-background/70 transition-colors duration-300 no-underline">
+                            Vibe Web Agency
+                        </a>
+                    </p>
+
                     {/* Social + Legal */}
                     <div className="flex items-center gap-8">
                         {SOCIAL_LINKS.filter(s => s.href).map((social) => (
