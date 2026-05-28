@@ -9,63 +9,63 @@ export interface NewsItem {
 
 export const news: NewsItem[] = [
     {
-        slug: "ines-garcia-nomination-cesar",
-        title: "Inès Garcia nommée aux César du Meilleur Espoir Féminin",
-        date: "15 février 2025",
-        category: "Presse",
-        excerpt:
-            "Notre talentueuse Inès Garcia a été nommée dans la catégorie Meilleur Espoir Féminin pour son rôle dans « Après la Pluie » de François Ozon.",
-        content:
-            "C'est avec une immense fierté que nous annonçons la nomination d'Inès Garcia aux César 2025 dans la catégorie Meilleur Espoir Féminin. Sa performance dans le film « Après la Pluie » de François Ozon a été saluée unanimement par la critique. À seulement 19 ans, Inès confirme qu'elle est l'une des actrices les plus prometteuses de sa génération.",
-    },
-    {
-        slug: "iconik-festival-cannes-2024",
-        title: "Iconik Agency au Festival de Cannes 2024",
-        date: "20 mai 2024",
-        category: "Festival",
-        excerpt:
-            "L'agence était présente au 77ème Festival de Cannes avec trois talents représentés dans la sélection officielle et Un Certain Regard.",
-        content:
-            "Le Festival de Cannes 2024 a été une édition exceptionnelle pour Iconik Agency. Trois de nos talents étaient présents dans des films de la sélection officielle. L'occasion pour eux de fouler le tapis rouge et de rencontrer les plus grands noms du cinéma mondial. Un moment inoubliable qui marque une étape importante dans le développement de notre agence.",
-    },
-    {
-        slug: "partenariat-cours-florent",
-        title: "Nouveau partenariat avec le Cours Florent Junior",
-        date: "10 septembre 2024",
-        category: "Agence",
-        excerpt:
-            "Iconik Agency et le Cours Florent Junior s'associent pour offrir des bourses de formation à de jeunes talents prometteurs issus de milieux défavorisés.",
-        content:
-            "Nous sommes ravis d'annoncer notre partenariat avec le Cours Florent Junior. Cette collaboration nous permet d'offrir chaque année trois bourses complètes à de jeunes comédiens talentueux qui n'auraient pas eu les moyens de suivre cette formation d'excellence. Parce que le talent ne connaît pas de frontière sociale.",
-    },
-    {
-        slug: "raphael-moreau-festival-international",
-        title: "Raphaël Moreau sélectionné pour le Festival International du Film de Jeunesse",
-        date: "3 novembre 2024",
-        category: "Festival",
-        excerpt:
-            "Raphaël Moreau représentera la France au prochain Festival International du Film de Jeunesse à Berlin.",
-        content:
-            "Raphaël Moreau, 15 ans, a été sélectionné pour représenter la France au prestigieux Festival International du Film de Jeunesse de Berlin. Une reconnaissance internationale pour ce jeune comédien formé au Conservatoire, dont le talent et la maturité ne cessent d'impressionner les professionnels du cinéma.",
-    },
-    {
-        slug: "tournage-etoiles-du-matin",
-        title: "Clap de fin pour « Les Étoiles du Matin »",
-        date: "28 juillet 2024",
+        slug: "demba-juste-une-illusion-2026",
+        title: "Demba obtient le rôle d'Ousman dans « Juste une illusion »",
+        date: "Avril 2026",
         category: "Projet",
         excerpt:
-            "Le tournage du film « Les Étoiles du Matin » de Marie-Claire Rousseau s'est achevé après huit semaines en Provence.",
+            "Demba a décroché le rôle d'Ousman dans le long métrage « Juste une illusion » réalisé par Olivier Nakache et Éric Toledano.",
         content:
-            "Après huit semaines de tournage intensif dans les paysages lumineux de Provence, le film « Les Étoiles du Matin » de Marie-Claire Rousseau a bouclé sa production. Quatre de nos talents — Léa Martin, Jade Petit, Adam Rousseau et Théo Fontaine — ont livré des performances époustouflantes. Sortie prévue au printemps 2025.",
+            "Nous sommes immensément fiers d'annoncer que Demba a obtenu le rôle d'Ousman dans le long métrage « Juste une illusion » réalisé par le duo Olivier Nakache et Éric Toledano, à qui l'on doit notamment Intouchables et Le sens de la fête. Une reconnaissance exceptionnelle pour ce jeune talent qui confirme l'étendue de son potentiel.",
     },
     {
-        slug: "ouverture-inscriptions-2025",
-        title: "Ouverture des inscriptions saison 2025-2026",
-        date: "1er janvier 2025",
-        category: "Agence",
+        slug: "coumba-le-reve-americain-2026",
+        title: "Coumba à l'affiche de « Le rêve américain »",
+        date: "Février 2026",
+        category: "Projet",
         excerpt:
-            "Iconik Agency ouvre ses portes aux nouveaux talents pour la saison 2025-2026. Envoyez vos candidatures !",
+            "Coumba a fait une apparition dans « Le rêve américain » réalisé par Anthony Marciano.",
         content:
-            "La saison 2025-2026 approche et nous recherchons de nouveaux visages ! Si votre enfant ou adolescent rêve de cinéma, de télévision ou de théâtre, n'hésitez pas à nous envoyer sa candidature via notre formulaire de contact. Nous étudions chaque dossier avec attention et organisons des auditions tout au long de l'année.",
+            "Coumba continue de faire parler d'elle. Après ses succès récents, elle a décroché une apparition dans « Le rêve américain » réalisé par Anthony Marciano. Une belle nouvelle étape dans un parcours qui ne cesse de progresser.",
+    },
+    {
+        slug: "hiver-2011-avant-premiere-2026",
+        title: "Avant-première de la série « Hiver 2011 » avec quatre de nos talents",
+        date: "Février 2026",
+        category: "Projet",
+        excerpt:
+            "Quatre de nos talents ont obtenu un rôle dans la série « Hiver 2011 » réalisée par Laurène Lubanza et Brian Houart.",
+        content:
+            "La série « Hiver 2011 » réalisée par Laurène Lubanza et Brian Houart a tenu son avant-première, et nous ne pouvions pas en être plus fiers : pas moins de quatre de nos talents ont obtenu un rôle dans cette production. Une soirée mémorable qui témoigne du travail accompli et de la confiance que les réalisateurs placent dans les talents d'Iconik Agency.",
+    },
+    {
+        slug: "jonah-le-diplome-tf1-2026",
+        title: "Jonah à l'écran dans « Le Diplôme » sur TF1",
+        date: "Janvier 2026",
+        category: "Projet",
+        excerpt:
+            "Jonah a été à l'écran dans la série « Le Diplôme » réalisée par Fanny Riedberger et diffusée sur TF1.",
+        content:
+            "Jonah a fait ses premiers pas sur TF1 dans la série « Le Diplôme » réalisée par Fanny Riedberger. Une diffusion nationale pour ce jeune talent qui gagne en visibilité et confirme son potentiel devant les caméras les plus importantes du paysage audiovisuel français.",
+    },
+    {
+        slug: "souad-coumba-zenith-paris-2025",
+        title: "Souad et Coumba au Zénith de Paris pour « Independent Queen »",
+        date: "Décembre 2025",
+        category: "Projet",
+        excerpt:
+            "Souad et Coumba ont participé à la comédie musicale « Independent Queen » au Zénith de Paris.",
+        content:
+            "Quelle fin d'année pour Souad et Coumba ! Les deux talents ont participé à la comédie musicale « Independent Queen » sur la scène mythique du Zénith de Paris. Une expérience hors du commun qui les a confrontées à un public immense et à l'exigence des grandes productions scéniques.",
+    },
+    {
+        slug: "aissatou-happy-meal-2025",
+        title: "Aïssatou dans « Happy Meal » de Johanna Makabi",
+        date: "Septembre 2025",
+        category: "Festival",
+        excerpt:
+            "Aïssatou a participé au magnifique projet « Happy Meal » de la réalisatrice Johanna Makabi, récompensé dans de nombreux festivals.",
+        content:
+            "Aïssatou a eu la chance de participer à « Happy Meal », un projet fort et sensible signé par la réalisatrice Johanna Makabi. Le film a été récompensé dans de nombreux festivals, une reconnaissance bien méritée pour une œuvre qui touche profondément. Nous sommes très fiers de la performance d'Aïssatou dans ce projet d'exception.",
     },
 ];

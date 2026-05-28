@@ -116,7 +116,6 @@ export default function ContactForm() {
                         >
                             <option value="">Choisir un objet</option>
                             <option value="Proposition de casting">Proposition de casting</option>
-                            <option value="Inscription d'un talent">Inscription d&apos;un talent</option>
                             <option value="Collaboration / Partenariat">Collaboration / Partenariat</option>
                             <option value="Demande presse">Demande presse</option>
                             <option value="Autre">Autre</option>

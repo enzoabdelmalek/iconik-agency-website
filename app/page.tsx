@@ -123,8 +123,13 @@ export default async function HomePage() {
                 <div className="max-w-[1400px] mx-auto px-8 md:px-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
                         <AnimateOnScroll>
-                            <div className="photo-placeholder-dark photo-placeholder aspect-[4/5] w-full max-w-lg mx-auto lg:mx-0">
-                                <span className="relative z-10 text-4xl">IA</span>
+                            <div className="aspect-[4/5] w-full max-w-lg mx-auto lg:mx-0 overflow-hidden">
+                                <img
+                                    src="/assets/_69A7114.jpg"
+                                    alt="Iconik Agency — détection de talents"
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                />
                             </div>
                         </AnimateOnScroll>
 
