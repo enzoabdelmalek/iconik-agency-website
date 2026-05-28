@@ -228,7 +228,7 @@ export default function AProposPage() {
                             <Link href="/iconik-tour" className="btn-primary">
                                 <span>Découvrir l&apos;Iconik Tour</span>
                             </Link>
-                            <Link href="/contact" className="btn-secondary">
+                            <Link href="/contact" className="btn-outline">
                                 <span>Nous contacter</span>
                             </Link>
                         </div>

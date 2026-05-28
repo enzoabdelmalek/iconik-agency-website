@@ -4,7 +4,7 @@ const SOCIAL_LINKS: { label: string; href: string }[] = [];
 
 const navLinks = [
     { href: "/talents", label: "Talents" },
-    { href: "/projets", label: "Projets" },
+    { href: "/iconik-tour", label: "Iconik Tour" },
     { href: "/a-propos", label: "À propos" },
     { href: "/actualites", label: "Actualités" },
     { href: "/avis", label: "Avis" },

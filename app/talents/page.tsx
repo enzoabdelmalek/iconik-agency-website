@@ -28,6 +28,7 @@ interface Person {
 export default function TalentsPage() {
     const [talents, setTalents] = useState<Person[]>([]);
     const [activeCategory, setActiveCategory] = useState("Tous");
+    const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -47,9 +48,14 @@ export default function TalentsPage() {
 
     const categories = ["Tous", ...Array.from(new Set(talents.map(t => t.specialty?.trim()).filter(Boolean))) as string[]];
 
-    const filteredTalents = activeCategory === "Tous"
+    const filteredTalents = (activeCategory === "Tous"
         ? talents
-        : talents.filter(t => t.specialty?.trim() === activeCategory);
+        : talents.filter(t => t.specialty?.trim() === activeCategory)
+    ).slice().sort((a, b) => {
+        const la = (a.last_name ?? a.name ?? "").toLowerCase();
+        const lb = (b.last_name ?? b.name ?? "").toLowerCase();
+        return sortOrder === "asc" ? la.localeCompare(lb, "fr") : lb.localeCompare(la, "fr");
+    });
 
     return (
         <>
@@ -81,9 +87,23 @@ export default function TalentsPage() {
                                 {cat}
                             </button>
                         ))}
-                        <span className="ml-auto text-xs text-muted">
-                            {filteredTalents.length} talent{filteredTalents.length > 1 ? "s" : ""}
-                        </span>
+                        <div className="ml-auto flex items-center gap-2 shrink-0">
+                            <span className="text-xs text-muted hidden sm:block">Trier :</span>
+                            <button
+                                onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+                                className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded border border-border bg-background hover:bg-surface transition-colors duration-200"
+                                title={sortOrder === "asc" ? "Tri A→Z (cliquer pour Z→A)" : "Tri Z→A (cliquer pour A→Z)"}
+                            >
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                                    <path d="M2 4l3-3 3 3M5 1v10M10 8l-2 2-2-2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity={sortOrder === "asc" ? 1 : 0.35} />
+                                    <path d="M10 4l-2-2-2 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity={sortOrder === "desc" ? 1 : 0.35} />
+                                </svg>
+                                Nom {sortOrder === "asc" ? "A → Z" : "Z → A"}
+                            </button>
+                            <span className="text-xs text-muted">
+                                {filteredTalents.length} talent{filteredTalents.length > 1 ? "s" : ""}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </section>
