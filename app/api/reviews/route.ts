@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Note invalide" }, { status: 400 });
     }
 
-    const { error } = await (supabase as any).from("reviews").insert({
+    const { error } = await supabase.from("reviews").insert({
         business_id: BUSINESS_ID,
         author_name,
         email,
@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
     });
 
     if (error) {
-        console.error("Erreur insertion avis:", error);
         return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
     }
 

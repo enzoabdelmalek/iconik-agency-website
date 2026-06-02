@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
         url: "https://www.iconikagency.fr/a-propos",
         title: "À propos | Iconik Agency",
         description: "Découvrez l'histoire d'Iconik Agency, née en 2023 d'un constat terrain : révéler, protéger et sublimer les talents du cinéma partout en France.",
+        images: [{ url: "/assets/0e9e52d9-306c-4d77-8cb6-b59cfae2c936.jpg", width: 1200, height: 630, alt: "Aïssata Diaw — Fondatrice d'Iconik Agency" }],
     },
     twitter: {
         card: "summary",
@@ -108,12 +110,13 @@ export default function AProposPage() {
 
                         <div>
                             <AnimateOnScroll delay={2}>
-                                <div className="aspect-[4/5] w-full overflow-hidden">
-                                    <img
+                                <div className="aspect-[4/5] w-full overflow-hidden relative">
+                                    <Image
                                         src="/assets/_69A7006.jpg"
                                         alt="Iconik Tour — audition"
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 768px) 100vw, 50vw"
                                     />
                                 </div>
                             </AnimateOnScroll>
@@ -182,12 +185,13 @@ export default function AProposPage() {
                     </AnimateOnScroll>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-start">
                         <AnimateOnScroll delay={1}>
-                            <div className="aspect-[3/4] w-full overflow-hidden">
-                                <img
+                            <div className="aspect-[3/4] w-full overflow-hidden relative">
+                                <Image
                                     src="/assets/0e9e52d9-306c-4d77-8cb6-b59cfae2c936.jpg"
                                     alt="Aïssata Diaw — Fondatrice d'Iconik Agency"
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                             </div>
                         </AnimateOnScroll>

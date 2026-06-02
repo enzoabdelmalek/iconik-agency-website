@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import { mapPersonToTalent } from "@/lib/talent-utils";
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
         title: "Iconik Agency — Agence de Jeunes Comédiens à Paris",
         description:
             "Agence artistique parisienne dédiée aux jeunes comédiens pour le cinéma, la télévision, le théâtre et la publicité.",
+        images: [{ url: "/assets/_69A7114.jpg", width: 1200, height: 630, alt: "Iconik Agency — session de casting" }],
     },
     twitter: {
         card: "summary",
@@ -44,7 +46,7 @@ export default async function HomePage() {
             .order("display_order", { ascending: true })
             .limit(3),
         supabase
-            .from("blog" as any)
+            .from("blog")
             .select("id, slug, title, date, category, excerpt")
             .eq("business_id", BUSINESS_ID)
             .eq("active", true)
@@ -123,12 +125,13 @@ export default async function HomePage() {
                 <div className="max-w-[1400px] mx-auto px-8 md:px-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
                         <AnimateOnScroll>
-                            <div className="aspect-[4/5] w-full max-w-lg mx-auto lg:mx-0 overflow-hidden">
-                                <img
+                            <div className="aspect-[4/5] w-full max-w-lg mx-auto lg:mx-0 overflow-hidden relative">
+                                <Image
                                     src="/assets/_69A7114.jpg"
                                     alt="Iconik Agency — détection de talents"
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                             </div>
                         </AnimateOnScroll>
@@ -290,13 +293,14 @@ export default async function HomePage() {
                             {featuredProjects.map((project, index) => (
                                 <AnimateOnScroll key={project.id} delay={(index + 1) as 1 | 2 | 3}>
                                     <Link href={`/projets/${project.id}`} className="block no-underline project-card group">
-                                        <div className="aspect-[16/10] w-full mb-6 overflow-hidden">
+                                        <div className="aspect-[16/10] w-full mb-6 overflow-hidden relative">
                                             {project.photo_url ? (
-                                                <img
+                                                <Image
                                                     src={project.photo_url}
                                                     alt={project.title}
-                                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                                    loading="lazy"
+                                                    fill
+                                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                                    sizes="(max-width: 768px) 100vw, 33vw"
                                                 />
                                             ) : (
                                                 <div className="photo-placeholder-dark photo-placeholder w-full h-full">

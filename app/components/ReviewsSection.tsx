@@ -13,14 +13,14 @@ interface Review {
 export default async function ReviewsSection() {
     const [{ data: reviews }, { data: allReviews }] = await Promise.all([
         supabase
-            .from("reviews" as any)
+            .from("reviews")
             .select("id, author_name, rating, comment")
             .eq("business_id", BUSINESS_ID)
             .gte("rating", 4)
             .order("created_at", { ascending: false })
             .limit(3),
         supabase
-            .from("reviews" as any)
+            .from("reviews")
             .select("rating")
             .eq("business_id", BUSINESS_ID),
     ]);

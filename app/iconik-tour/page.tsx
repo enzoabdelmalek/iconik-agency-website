@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
         url: "https://www.iconikagency.fr/iconik-tour",
         title: "Iconik Tour | Iconik Agency",
         description: "L'Iconik Tour est la seule voie pour intégrer Iconik Agency. Un dispositif de détection itinérante de talents, au cœur des territoires.",
+        images: [{ url: "/assets/_69A7006.jpg", width: 1200, height: 630, alt: "Iconik Tour — session de détection de talents" }],
     },
     twitter: {
         card: "summary",
@@ -95,12 +97,13 @@ export default function IkonikTourPage() {
 
                         <div>
                             <AnimateOnScroll delay={2}>
-                                <div className="aspect-[4/5] w-full overflow-hidden">
-                                    <img
+                                <div className="aspect-[4/5] w-full overflow-hidden relative">
+                                    <Image
                                         src="/assets/_69A7006.jpg"
                                         alt="Iconik Tour — jeune talent en audition"
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 768px) 100vw, 50vw"
                                     />
                                 </div>
                             </AnimateOnScroll>
@@ -136,12 +139,13 @@ export default function IkonikTourPage() {
                             { src: "/assets/_69A7114.jpg", alt: "Session de casting Iconik Tour" },
                         ].map((photo, i) => (
                             <AnimateOnScroll key={photo.src} delay={((i % 4) + 1) as 1 | 2 | 3 | 4}>
-                                <div className="aspect-square overflow-hidden">
-                                    <img
+                                <div className="aspect-square overflow-hidden relative">
+                                    <Image
                                         src={photo.src}
                                         alt={photo.alt}
-                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                        loading="lazy"
+                                        fill
+                                        className="object-cover hover:scale-105 transition-transform duration-500"
+                                        sizes="(max-width: 768px) 50vw, 25vw"
                                     />
                                 </div>
                             </AnimateOnScroll>
@@ -255,12 +259,13 @@ export default function IkonikTourPage() {
                         </div>
 
                         <AnimateOnScroll delay={2}>
-                            <div className="aspect-[4/5] w-full overflow-hidden">
-                                <img
+                            <div className="aspect-[4/5] w-full overflow-hidden relative">
+                                <Image
                                     src="/assets/_69A7025.jpg"
                                     alt="Iconik Tour — le jury en action"
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                             </div>
                         </AnimateOnScroll>

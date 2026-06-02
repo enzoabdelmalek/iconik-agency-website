@@ -29,7 +29,6 @@ export async function POST(req: NextRequest) {
     });
 
     if (dbError) {
-        console.error("DB error:", dbError);
         return NextResponse.json({ error: "Erreur base de données" }, { status: 500 });
     }
 
@@ -75,8 +74,7 @@ export async function POST(req: NextRequest) {
                 </div>
             `,
         });
-        if (emailError) console.error("Resend error:", emailError);
-        else console.log("Email envoyé:", emailData?.id);
+        if (emailError) return NextResponse.json({ error: "Erreur envoi email" }, { status: 500 });
     }
 
     // Send confirmation email to the sender

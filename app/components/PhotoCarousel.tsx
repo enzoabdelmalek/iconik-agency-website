@@ -22,7 +22,7 @@ export default function PhotoCarousel({ photos, name, initials }: { photos: stri
             <div className="relative aspect-[3/4] overflow-hidden bg-surface">
                 <img
                     src={photos[current]}
-                    alt={`${name} — ${current + 1}`}
+                    alt={`${name} — photo ${current + 1} sur ${photos.length}`}
                     className="w-full h-full object-cover transition-opacity duration-300"
                 />
 
@@ -50,7 +50,7 @@ export default function PhotoCarousel({ photos, name, initials }: { photos: stri
                     {photos.map((url, i) => (
                         <button key={i} onClick={() => setCurrent(i)}
                             className={`carousel-thumb${current === i ? " active" : ""}`}>
-                            <img src={url} alt={`thumb-${i}`} className="w-full h-full object-cover" />
+                            <img src={url} alt={`${name} — vignette ${i + 1}`} className="w-full h-full object-cover" />
                         </button>
                     ))}
                 </div>

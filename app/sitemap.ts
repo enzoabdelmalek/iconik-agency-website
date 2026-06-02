@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const [{ data: talents }, { data: projects }, { data: posts }] = await Promise.all([
         supabase.from("people").select("id, slug, updated_at").eq("business_id", BUSINESS_ID).neq("active", false),
         supabase.from("projects").select("id, updated_at").eq("business_id", BUSINESS_ID).eq("active", true),
-        supabase.from("blog" as any).select("slug, created_at").eq("business_id", BUSINESS_ID).eq("active", true),
+        supabase.from("blog").select("slug, created_at").eq("business_id", BUSINESS_ID).eq("active", true),
     ]);
 
     const talentRoutes: MetadataRoute.Sitemap = (talents || []).filter((t: any) => t.slug).map((t: any) => ({

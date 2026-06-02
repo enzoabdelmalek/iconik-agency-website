@@ -124,7 +124,7 @@ export default function TalentsPage() {
                                     key={talent.id}
                                     delay={((index % 4) + 1) as 1 | 2 | 3 | 4}
                                 >
-                                    <TalentCard talent={mapPersonToTalent(talent as any)} />
+                                    <TalentCard talent={mapPersonToTalent(talent)} />
                                 </AnimateOnScroll>
                             ))}
                         </div>

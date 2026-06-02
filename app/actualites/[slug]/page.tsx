@@ -17,13 +17,13 @@ interface BlogPost {
 
 async function getPost(slug: string): Promise<BlogPost | null> {
     const { data } = await supabase
-        .from("blog" as any)
+        .from("blog")
         .select("id, slug, title, date, category, excerpt, content")
         .eq("business_id", BUSINESS_ID)
         .eq("slug", slug)
         .eq("active", true)
         .single();
-    return (data as BlogPost) || null;
+    return (data as unknown as BlogPost) || null;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

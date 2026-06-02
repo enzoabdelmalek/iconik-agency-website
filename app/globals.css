@@ -600,6 +600,14 @@ textarea.form-input {
   padding: 11rem 0 5rem;
 }
 
+/* ─── FOCUS VISIBLE ─── */
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
   h1 {

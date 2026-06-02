@@ -9,6 +9,7 @@ const navLinks = [
     { href: "/iconik-tour", label: "Iconik Tour" },
     { href: "/a-propos", label: "À propos" },
     { href: "/actualites", label: "Actualités" },
+    { href: "/avis", label: "Avis" },
 ];
 
 export default function Header() {

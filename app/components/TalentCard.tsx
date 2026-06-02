@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Talent } from "@/lib/talent-utils";
 
@@ -10,9 +11,9 @@ export default function TalentCard({ talent }: TalentCardProps) {
         <Link href={`/talents/${talent.slug}`} className="block no-underline group">
             <div className="talent-card">
                 {/* Photo */}
-                <div className="photo-placeholder talent-image aspect-[3/4] w-full">
+                <div className="photo-placeholder talent-image aspect-[3/4] w-full relative">
                     {talent.photoUrl ? (
-                        <img src={talent.photoUrl} alt={`${talent.firstName} ${talent.lastName}`} className="w-full h-full object-cover" loading="lazy" />
+                        <Image src={talent.photoUrl} alt={`${talent.firstName} ${talent.lastName}`} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
                     ) : (
                         <span className="relative z-10 text-2xl md:text-3xl">{talent.initials}</span>
                     )}

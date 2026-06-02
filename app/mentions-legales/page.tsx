@@ -26,7 +26,7 @@ export default function MentionsLegalesPage() {
                                 1. Éditeur du site
                             </h2>
                             <p>
-                                Le site <strong>iconik-agency.com</strong> est édité par :
+                                Le site <strong>iconikagency.fr</strong> est édité par :
                             </p>
                             <p className="mt-2">
                                 <strong>Iconik Agency</strong>

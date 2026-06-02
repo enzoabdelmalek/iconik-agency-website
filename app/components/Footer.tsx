@@ -113,6 +113,12 @@ export default function Footer() {
                         >
                             Mentions légales
                         </Link>
+                        <Link
+                            href="/politique-confidentialite"
+                            className="text-[0.75rem] text-background/35 no-underline hover:text-background/70 transition-colors duration-300 tracking-[0.04em]"
+                        >
+                            Confidentialité
+                        </Link>
                     </div>
                 </div>
             </div>
