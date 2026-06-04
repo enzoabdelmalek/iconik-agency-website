@@ -31,12 +31,13 @@ interface BlogPost {
     date: string;
     category: string;
     excerpt: string;
+    cover_url: string | null;
 }
 
 async function getPosts(): Promise<BlogPost[]> {
     const { data } = await supabase
         .from("blog")
-        .select("id, slug, title, date, category, excerpt")
+        .select("id, slug, title, date, category, excerpt, cover_url")
         .eq("business_id", BUSINESS_ID)
         .eq("active", true)
         .order("display_order", { ascending: true })
@@ -80,25 +81,38 @@ export default async function ActualitesPage() {
                                 <AnimateOnScroll key={item.id}>
                                     <Link
                                         href={`/actualites/${item.slug}`}
-                                        className={`block py-12 group ${index < posts.length - 1 ? "border-b border-border" : ""}`}
+                                        className={`flex gap-8 items-start py-12 group ${index < posts.length - 1 ? "border-b border-border" : ""}`}
                                     >
-                                        <div className="flex items-center gap-3 mb-4">
-                                            <span className="text-xs tracking-[0.1em] uppercase text-muted px-3 py-1 border border-border">
-                                                {item.category}
-                                            </span>
-                                            <span className="text-xs text-muted">{item.date}</span>
-                                        </div>
-                                        <h2 className="text-2xl md:text-3xl mb-4 group-hover:opacity-70 transition-opacity">
-                                            {item.title}
-                                        </h2>
-                                        {item.excerpt && (
-                                            <p className="text-muted leading-relaxed line-clamp-2">
-                                                {item.excerpt}
-                                            </p>
+                                        {/* Cover */}
+                                        {item.cover_url && (
+                                            <div className="shrink-0 w-40 md:w-56 aspect-[16/10] overflow-hidden bg-surface">
+                                                <img
+                                                    src={item.cover_url}
+                                                    alt={item.title}
+                                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                />
+                                            </div>
                                         )}
-                                        <p className="mt-4 text-xs tracking-[0.1em] uppercase text-foreground group-hover:opacity-70 transition-opacity">
-                                            Lire la suite →
-                                        </p>
+                                        {/* Text */}
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-3 mb-4">
+                                                <span className="text-xs tracking-[0.1em] uppercase text-muted px-3 py-1 border border-border">
+                                                    {item.category}
+                                                </span>
+                                                <span className="text-xs text-muted">{item.date}</span>
+                                            </div>
+                                            <h2 className="text-2xl md:text-3xl mb-4 group-hover:opacity-70 transition-opacity">
+                                                {item.title}
+                                            </h2>
+                                            {item.excerpt && (
+                                                <p className="text-muted leading-relaxed line-clamp-2">
+                                                    {item.excerpt}
+                                                </p>
+                                            )}
+                                            <p className="mt-4 text-xs tracking-[0.1em] uppercase text-foreground group-hover:opacity-70 transition-opacity">
+                                                Lire la suite →
+                                            </p>
+                                        </div>
                                     </Link>
                                 </AnimateOnScroll>
                             ))}

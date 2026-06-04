@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import type { Talent } from "@/lib/talent-utils";
 
 interface TalentCardProps {
@@ -7,13 +10,22 @@ interface TalentCardProps {
 }
 
 export default function TalentCard({ talent }: TalentCardProps) {
+    const [imgError, setImgError] = useState(false);
+
     return (
         <Link href={`/talents/${talent.slug}`} className="block no-underline group">
             <div className="talent-card">
                 {/* Photo */}
                 <div className="photo-placeholder talent-image aspect-[3/4] w-full relative">
-                    {talent.photoUrl ? (
-                        <Image src={talent.photoUrl} alt={`${talent.firstName} ${talent.lastName}`} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
+                    {talent.photoUrl && !imgError ? (
+                        <Image
+                            src={talent.photoUrl}
+                            alt={`${talent.firstName} ${talent.lastName}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            onError={() => setImgError(true)}
+                        />
                     ) : (
                         <span className="relative z-10 text-2xl md:text-3xl">{talent.initials}</span>
                     )}

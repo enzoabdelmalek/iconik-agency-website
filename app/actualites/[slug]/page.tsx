@@ -13,12 +13,13 @@ interface BlogPost {
     category: string;
     excerpt: string;
     content: string;
+    cover_url: string | null;
 }
 
 async function getPost(slug: string): Promise<BlogPost | null> {
     const { data } = await supabase
         .from("blog")
-        .select("id, slug, title, date, category, excerpt, content")
+        .select("id, slug, title, date, category, excerpt, content, cover_url")
         .eq("business_id", BUSINESS_ID)
         .eq("slug", slug)
         .eq("active", true)
@@ -40,6 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             url,
             title: `${post.title} | Iconik Agency`,
             description: post.excerpt || undefined,
+            images: post.cover_url ? [{ url: post.cover_url, alt: post.title }] : [],
         },
         twitter: {
             card: "summary",
@@ -83,9 +85,22 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 </div>
             </section>
 
+            {/* Cover image */}
+            {post.cover_url && (
+                <div className="max-w-[900px] mx-auto px-8 md:px-12 pt-12">
+                    <div className="w-full aspect-[16/7] overflow-hidden bg-surface">
+                        <img
+                            src={post.cover_url}
+                            alt={post.title}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
+            )}
+
             {/* Content */}
             {post.content && (
-                <section className="py-24 md:py-32">
+                <section className="py-16 md:py-24">
                     <div className="max-w-[900px] mx-auto px-8 md:px-12">
                         <div className="prose-article">
                             {post.content.split("\n\n").map((paragraph, i) => (

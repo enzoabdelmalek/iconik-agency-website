@@ -4,11 +4,17 @@ import { useState } from "react";
 
 export default function PhotoCarousel({ photos, name, initials }: { photos: string[]; name: string; initials?: string }) {
     const [current, setCurrent] = useState(0);
+    const [failedUrls, setFailedUrls] = useState<Set<string>>(new Set());
+
+    const validPhotos = photos.filter(url => !failedUrls.has(url));
+    const onImgError = (url: string) => setFailedUrls(prev => new Set(prev).add(url));
 
     const prev = () => setCurrent(i => (i - 1 + photos.length) % photos.length);
     const next = () => setCurrent(i => (i + 1) % photos.length);
 
-    if (photos.length === 0) {
+    const displayIndex = Math.min(current, Math.max(validPhotos.length - 1, 0));
+
+    if (validPhotos.length === 0) {
         return (
             <div className="photo-placeholder aspect-[3/4] w-full flex items-center justify-center">
                 <span className="relative z-10 text-5xl md:text-6xl">{initials}</span>
@@ -21,18 +27,19 @@ export default function PhotoCarousel({ photos, name, initials }: { photos: stri
             {/* Main image */}
             <div className="relative aspect-[3/4] overflow-hidden bg-surface">
                 <img
-                    src={photos[current]}
-                    alt={`${name} — photo ${current + 1} sur ${photos.length}`}
+                    src={validPhotos[displayIndex]}
+                    alt={`${name} — photo ${displayIndex + 1} sur ${validPhotos.length}`}
                     className="w-full h-full object-cover transition-opacity duration-300"
+                    onError={() => onImgError(validPhotos[displayIndex])}
                 />
 
                 {/* Counter */}
                 <div className="carousel-counter">
-                    {current + 1} / {photos.length}
+                    {displayIndex + 1} / {validPhotos.length}
                 </div>
 
                 {/* Arrows */}
-                {photos.length > 1 && (
+                {validPhotos.length > 1 && (
                     <>
                         <button onClick={prev} className="carousel-btn carousel-btn-prev" aria-label="Photo précédente">
                             ←
@@ -45,12 +52,13 @@ export default function PhotoCarousel({ photos, name, initials }: { photos: stri
             </div>
 
             {/* Thumbnails */}
-            {photos.length > 1 && (
+            {validPhotos.length > 1 && (
                 <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
-                    {photos.map((url, i) => (
-                        <button key={i} onClick={() => setCurrent(i)}
-                            className={`carousel-thumb${current === i ? " active" : ""}`}>
-                            <img src={url} alt={`${name} — vignette ${i + 1}`} className="w-full h-full object-cover" />
+                    {validPhotos.map((url, i) => (
+                        <button key={url} onClick={() => setCurrent(i)}
+                            className={`carousel-thumb${displayIndex === i ? " active" : ""}`}>
+                            <img src={url} alt={`${name} — vignette ${i + 1}`} className="w-full h-full object-cover"
+                                onError={() => onImgError(url)} />
                         </button>
                     ))}
                 </div>
