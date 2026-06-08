@@ -196,7 +196,6 @@ export default function TalentCVButton({ talent }: Props) {
 
         if (hasDetails || hasLanguages) {
             checkPageBreak(Math.ceil(details.length / 2) * 12 + (hasLanguages ? 28 : 16));
-            line();
             y += 8;
 
             if (hasDetails) {
