@@ -4,7 +4,7 @@ import { Resend } from "resend";
 
 const supabaseAdmin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 const resend = new Resend(process.env.RESEND_API_KEY!);
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     const notificationEmail = process.env.NOTIFICATION_EMAIL;
     if (notificationEmail && process.env.RESEND_API_KEY) {
         const subjectLabel = subject || "Contact";
-        const { data: emailData, error: emailError } = await resend.emails.send({
+        const { error: emailError } = await resend.emails.send({
             from: "Iconik Agency <noreply@iconikagency.fr>",
             to: notificationEmail,
             subject: `Nouveau message — ${subjectLabel}`,

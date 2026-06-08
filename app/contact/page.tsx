@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
 import ContactForm from "./ContactForm";
-
-const SOCIAL_LINKS: { label: string; href: string }[] = [];
+import { SOCIAL_LINKS } from "@/lib/social";
 
 export const metadata: Metadata = {
     title: "Contact",

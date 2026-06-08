@@ -6,6 +6,8 @@ import PhotoCarousel from "@/app/components/PhotoCarousel";
 import TalentCVButton from "@/app/components/TalentCVButton";
 import type { Metadata } from "next";
 
+export const revalidate = 60;
+
 const isUUID = (s: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
 
 export async function generateStaticParams() {

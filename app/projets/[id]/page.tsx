@@ -24,6 +24,8 @@ function getEmbedUrl(url: string): string | null {
     return null;
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
     const { data } = await supabase
         .from("projects")

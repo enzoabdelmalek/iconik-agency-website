@@ -1,6 +1,5 @@
 import Link from "next/link";
-
-const SOCIAL_LINKS: { label: string; href: string }[] = [];
+import { SOCIAL_LINKS } from "@/lib/social";
 
 const navLinks = [
     { href: "/talents", label: "Talents" },
