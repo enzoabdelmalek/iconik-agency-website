@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
@@ -50,11 +51,15 @@ export default function Header() {
             >
                 <div className="max-w-[1400px] mx-auto px-8 md:px-12 flex items-center justify-between h-20">
                     {/* Logo */}
-                    <Link
-                        href="/"
-                        className="font-serif text-2xl tracking-[0.08em] text-foreground no-underline"
-                    >
-                        ICONIK
+                    <Link href="/" className="no-underline flex items-center">
+                        <Image
+                            src="/logo/logo.png"
+                            alt="Iconik Agency"
+                            width={160}
+                            height={54}
+                            className="h-11 w-auto"
+                            priority
+                        />
                     </Link>
 
                     {/* Desktop Nav */}
