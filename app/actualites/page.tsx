@@ -40,7 +40,7 @@ async function getPosts(): Promise<BlogPost[]> {
         .select("id, slug, title, date, category, excerpt, cover_url")
         .eq("business_id", BUSINESS_ID)
         .eq("active", true)
-        .order("display_order", { ascending: true })
+        .order("date", { ascending: false, nullsFirst: false })
         .order("created_at", { ascending: false });
     return (data as BlogPost[]) || [];
 }
