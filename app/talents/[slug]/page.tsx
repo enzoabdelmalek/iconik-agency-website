@@ -211,25 +211,6 @@ export default async function TalentDetailPage({
                                 </AnimateOnScroll>
                             )}
 
-                            {/* Projects */}
-                            {talentProjects.length > 0 && (
-                                <AnimateOnScroll delay={5}>
-                                    <div className="mb-10">
-                                        <p className="text-xs tracking-[0.15em] uppercase text-muted mb-3">Projets</p>
-                                        <div className="flex flex-col gap-2">
-                                            {talentProjects.map((project: any) => (
-                                                <Link key={project.id} href={`/projets/${project.id}`}
-                                                    className="text-sm no-underline hover:text-muted transition-colors flex items-center gap-2">
-                                                    <span>-</span>
-                                                    <span>{project.title}</span>
-                                                    {project.role && <span className="text-muted text-xs">({project.role})</span>}
-                                                    {project.year && <span className="text-muted text-xs">{project.year}</span>}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </AnimateOnScroll>
-                            )}
 
                             {/* Description */}
                             {talent.description && (
@@ -261,6 +242,7 @@ export default async function TalentDetailPage({
                                         skills: talent.skills || [],
                                         description: talent.description,
                                         photoUrl: talent.photo_url,
+                                        experiences: talent.experiences || [],
                                         projects: talentProjects,
                                     }} />
                                 </div>

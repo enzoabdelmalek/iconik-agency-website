@@ -2,6 +2,12 @@
 
 import { useState } from "react";
 
+interface Experience {
+    title: string;
+    year: string;
+    role: string;
+}
+
 interface TalentCVData {
     firstName: string;
     lastName: string;
@@ -15,6 +21,7 @@ interface TalentCVData {
     skills: string[];
     description: string | null;
     photoUrl: string | null;
+    experiences: Experience[];
     projects: Array<{
         id: string;
         title: string;
@@ -227,6 +234,40 @@ export default function TalentCVButton({ talent }: Props) {
             });
             const rows = Math.ceil(details.length / 2);
             y += rows * 12 + 4;
+        }
+
+        // ─── Experiences ───
+        if (talent.experiences?.length > 0) {
+            checkPageBreak(30);
+            line();
+            y += 8;
+            doc.setFontSize(6.5);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(...GREY);
+            doc.text("EXPÉRIENCES", marginX, y, { charSpace: 0.8 });
+            y += 6;
+
+            talent.experiences.forEach((exp) => {
+                checkPageBreak(12);
+                const titleW = contentW - 20;
+                doc.setFontSize(9);
+                doc.setFont("helvetica", "normal");
+                doc.setTextColor(...BLACK);
+                doc.text(exp.title, marginX, y);
+                if (exp.year) {
+                    doc.setFontSize(8);
+                    doc.setTextColor(...GREY);
+                    doc.text(exp.year, W - marginX, y, { align: "right" });
+                }
+                if (exp.role) {
+                    y += 4.5;
+                    doc.setFontSize(7.5);
+                    doc.setTextColor(...GREY);
+                    doc.text(exp.role, marginX, y);
+                }
+                y += 6;
+            });
+            y += 2;
         }
 
         // ─── Languages ───
