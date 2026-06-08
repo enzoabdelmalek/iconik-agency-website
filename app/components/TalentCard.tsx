@@ -34,7 +34,7 @@ export default function TalentCard({ talent }: TalentCardProps) {
                 {/* Overlay on hover */}
                 <div className="talent-overlay">
                     <p className="text-xs tracking-[0.1em] uppercase opacity-70 mb-1">
-                        {talent.category} — {talent.age} ans
+                        {talent.category} - {talent.age} ans
                     </p>
                     <p className="text-sm leading-snug">
                         {talent.skills.slice(0, 3).join(" · ")}
@@ -48,7 +48,7 @@ export default function TalentCard({ talent }: TalentCardProps) {
                     {talent.firstName} {talent.lastName}
                 </h3>
                 <p className="text-xs text-muted tracking-[0.05em] uppercase mt-1">
-                    {talent.category} — {talent.age} ans
+                    {talent.category} - {talent.age} ans
                 </p>
             </div>
         </Link>

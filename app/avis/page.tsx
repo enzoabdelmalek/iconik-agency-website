@@ -14,7 +14,7 @@ export const metadata: Metadata = {
         url: "https://www.iconikagency.fr/avis",
         title: "Avis | Iconik Agency",
         description: "Découvrez les avis sur Iconik Agency et partagez votre expérience.",
-        images: [{ url: "/assets/_69A7114.jpg", width: 1200, height: 630, alt: "Iconik Agency — avis clients" }],
+        images: [{ url: "/assets/_69A7114.jpg", width: 1200, height: 630, alt: "Iconik Agency - avis clients" }],
     },
     twitter: {
         card: "summary",

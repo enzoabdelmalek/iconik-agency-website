@@ -85,9 +85,9 @@ export default function PolitiqueConfidentialitePage() {
                             <p>Nous faisons appel aux prestataires suivants pour traiter vos données :</p>
                             <ul className="mt-3 flex flex-col gap-2">
                                 {[
-                                    "Supabase (stockage des données) — hébergé en Europe",
+                                    "Supabase (stockage des données) - hébergé en Europe",
                                     "Resend (envoi d'emails transactionnels)",
-                                    "Vercel (hébergement du site) — USA, sous Privacy Shield",
+                                    "Vercel (hébergement du site) - USA, sous Privacy Shield",
                                 ].map(item => (
                                     <li key={item} className="flex gap-3 items-start">
                                         <span className="w-1 h-1 rounded-full bg-foreground mt-2.5 shrink-0" />

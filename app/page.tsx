@@ -8,21 +8,21 @@ import AnimateOnScroll from "./components/AnimateOnScroll";
 import ReviewsSection from "./components/ReviewsSection";
 
 export const metadata: Metadata = {
-    title: "Iconik Agency — Agence de Jeunes Comédiens à Paris",
+    title: "Iconik Agency - Agence de Jeunes Comédiens à Paris",
     description:
         "Iconik Agency est une agence artistique parisienne dédiée aux jeunes comédiens. Nous révélons et accompagnons les talents de demain pour le cinéma, la télévision et le théâtre.",
     alternates: { canonical: "https://www.iconikagency.fr" },
     openGraph: {
         type: "website",
         url: "https://www.iconikagency.fr",
-        title: "Iconik Agency — Agence de Jeunes Comédiens à Paris",
+        title: "Iconik Agency - Agence de Jeunes Comédiens à Paris",
         description:
             "Agence artistique parisienne dédiée aux jeunes comédiens pour le cinéma, la télévision, le théâtre et la publicité.",
-        images: [{ url: "/assets/_69A7114.jpg", width: 1200, height: 630, alt: "Iconik Agency — session de casting" }],
+        images: [{ url: "/assets/_69A7114.jpg", width: 1200, height: 630, alt: "Iconik Agency - session de casting" }],
     },
     twitter: {
         card: "summary",
-        title: "Iconik Agency — Agence de Jeunes Comédiens à Paris",
+        title: "Iconik Agency - Agence de Jeunes Comédiens à Paris",
         description: "Agence artistique parisienne dédiée aux jeunes comédiens.",
     },
 };
@@ -88,7 +88,7 @@ export default async function HomePage() {
 
                 <div className="relative z-10 max-w-[1400px] mx-auto px-8 md:px-12 text-center">
                     <p className="hero-subtitle text-xs md:text-sm tracking-[0.3em] uppercase text-muted mb-8">
-                        Agence de Jeunes Comédiens — Paris
+                        Agence de Jeunes Comédiens - Paris
                     </p>
 
                     <h1 className="hero-title text-[clamp(3rem,10vw,9rem)] leading-[0.95] tracking-[-0.03em] mb-8">
@@ -128,7 +128,7 @@ export default async function HomePage() {
                             <div className="aspect-[4/5] w-full max-w-lg mx-auto lg:mx-0 overflow-hidden relative">
                                 <Image
                                     src="/assets/_69A7114.jpg"
-                                    alt="Iconik Agency — détection de talents"
+                                    alt="Iconik Agency - détection de talents"
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -144,9 +144,7 @@ export default async function HomePage() {
                             </AnimateOnScroll>
                             <AnimateOnScroll delay={2}>
                                 <h2 className="text-4xl md:text-5xl mb-6">
-                                    Le talent n&apos;attend pas
-                                    <br />
-                                    le nombre des années
+                                    Révéler ce qui brille
                                 </h2>
                             </AnimateOnScroll>
                             <AnimateOnScroll delay={3}>

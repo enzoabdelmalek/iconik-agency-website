@@ -34,7 +34,7 @@ export async function generateMetadata({
     const fullName = talent.first_name && talent.last_name
         ? `${talent.first_name} ${talent.last_name}`
         : talent.name;
-    const description = talent.description?.slice(0, 160) || `${fullName} — talent représenté par Iconik Agency`;
+    const description = talent.description?.slice(0, 160) || `${fullName} - talent représenté par Iconik Agency`;
     const url = `https://www.iconikagency.fr/talents/${slug}`;
     return {
         title: fullName,
@@ -89,7 +89,7 @@ export default async function TalentDetailPage({
         "@context": "https://schema.org",
         "@type": "Person",
         name: fullName,
-        description: talent.description || `${fullName} — talent représenté par Iconik Agency`,
+        description: talent.description || `${fullName} - talent représenté par Iconik Agency`,
         image: talent.photo_url || undefined,
         url: `https://www.iconikagency.fr/talents/${slug}`,
         worksFor: {
@@ -220,7 +220,7 @@ export default async function TalentDetailPage({
                                             {talentProjects.map((project: any) => (
                                                 <Link key={project.id} href={`/projets/${project.id}`}
                                                     className="text-sm no-underline hover:text-muted transition-colors flex items-center gap-2">
-                                                    <span>—</span>
+                                                    <span>-</span>
                                                     <span>{project.title}</span>
                                                     {project.role && <span className="text-muted text-xs">({project.role})</span>}
                                                     {project.year && <span className="text-muted text-xs">{project.year}</span>}

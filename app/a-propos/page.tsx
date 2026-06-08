@@ -13,12 +13,12 @@ export const metadata: Metadata = {
         url: "https://www.iconikagency.fr/a-propos",
         title: "À propos | Iconik Agency",
         description: "Découvrez l'histoire d'Iconik Agency, née en 2023 d'un constat terrain : révéler, protéger et sublimer les talents du cinéma partout en France.",
-        images: [{ url: "/assets/0e9e52d9-306c-4d77-8cb6-b59cfae2c936.jpg", width: 1200, height: 630, alt: "Aïssata Diaw — Fondatrice d'Iconik Agency" }],
+        images: [{ url: "/assets/0e9e52d9-306c-4d77-8cb6-b59cfae2c936.jpg", width: 1200, height: 630, alt: "Aïssata Diaw - Fondatrice d'Iconik Agency" }],
     },
     twitter: {
         card: "summary",
         title: "À propos | Iconik Agency",
-        description: "Iconik Agency — révéler, protéger et sublimer les talents du cinéma.",
+        description: "Iconik Agency - révéler, protéger et sublimer les talents du cinéma.",
     },
 };
 
@@ -86,12 +86,12 @@ export default function AProposPage() {
                             </AnimateOnScroll>
                             <AnimateOnScroll delay={3}>
                                 <p className="text-muted leading-relaxed mb-6">
-                                    Avant de structurer l&apos;agence, nous nous sommes formés en travaillant sur des projets réels — direction de casting, gestion de tournages, rencontres avec des professionnels du secteur. C&apos;est en étant au cœur de l&apos;industrie que nous avons construit notre réseau et affûté notre regard pour détecter les vrais talents.
+                                    Avant de structurer l&apos;agence, nous nous sommes formés en travaillant sur des projets réels - direction de casting, gestion de tournages, rencontres avec des professionnels du secteur. C&apos;est en étant au cœur de l&apos;industrie que nous avons construit notre réseau et affûté notre regard pour détecter les vrais talents.
                                 </p>
                             </AnimateOnScroll>
                             <AnimateOnScroll delay={4}>
                                 <div className="border-l-2 border-foreground pl-6 mt-8">
-                                    <p className="text-sm tracking-[0.15em] uppercase text-muted mb-4">L&apos;Iconik Tour — Juillet 2023</p>
+                                    <p className="text-sm tracking-[0.15em] uppercase text-muted mb-4">L&apos;Iconik Tour - Juillet 2023</p>
                                     <div className="flex flex-col gap-3">
                                         {[
                                             "300 participants",
@@ -113,7 +113,7 @@ export default function AProposPage() {
                                 <div className="aspect-[4/5] w-full overflow-hidden relative">
                                     <Image
                                         src="/assets/_69A7006.jpg"
-                                        alt="Iconik Tour — audition"
+                                        alt="Iconik Tour - audition"
                                         fill
                                         className="object-cover"
                                         sizes="(max-width: 768px) 100vw, 50vw"
@@ -135,7 +135,7 @@ export default function AProposPage() {
                     </AnimateOnScroll>
                     <AnimateOnScroll delay={2}>
                         <p className="mt-8 text-sm tracking-[0.15em] uppercase text-background/50">
-                            Aïssata Diaw — Fondatrice d&apos;Iconik Agency
+                            Aïssata Diaw - Fondatrice d&apos;Iconik Agency
                         </p>
                     </AnimateOnScroll>
                 </div>
@@ -188,7 +188,7 @@ export default function AProposPage() {
                             <div className="aspect-[3/4] w-full overflow-hidden relative">
                                 <Image
                                     src="/assets/0e9e52d9-306c-4d77-8cb6-b59cfae2c936.jpg"
-                                    alt="Aïssata Diaw — Fondatrice d'Iconik Agency"
+                                    alt="Aïssata Diaw - Fondatrice d'Iconik Agency"
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -203,10 +203,10 @@ export default function AProposPage() {
                                 <h3 className="text-3xl md:text-4xl mb-6">Aïssata Diaw</h3>
                                 <div className="section-divider" />
                                 <p className="text-muted leading-relaxed mt-6 mb-4">
-                                    Aïssata a fondé Iconik avec la conviction que le talent n&apos;attend pas le nombre des années. Son regard aiguisé, sa bienveillance et sa rigueur sont au cœur de l&apos;identité de l&apos;agence.
+                                    Aïssata a fondé Iconik Agency avec la conviction que le talent n'attend pas le nombre des années. Son regard aiguisé, sa bienveillance et sa rigueur sont au cœur de l'identité de l'agence.
                                 </p>
                                 <p className="text-muted leading-relaxed">
-                                    Formée sur le terrain — direction de casting, gestion de tournages, immersion dans les réseaux professionnels — elle a construit Iconik Agency pierre par pierre, avec une ambition claire : que le cinéma ne soit plus réservé à quelques-uns.
+                                    Formée sur le terrain (direction de casting, gestion de tournages, immersion dans les réseaux professionnels) elle a construit Iconik Agency pierre par pierre, avec une ambition claire : que le cinéma ne soit plus réservé à quelques-uns.
                                 </p>
                             </div>
                         </AnimateOnScroll>

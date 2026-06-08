@@ -28,7 +28,7 @@ export default function PhotoCarousel({ photos, name, initials }: { photos: stri
             <div className="relative aspect-[3/4] overflow-hidden bg-surface">
                 <img
                     src={validPhotos[displayIndex]}
-                    alt={`${name} — photo ${displayIndex + 1} sur ${validPhotos.length}`}
+                    alt={`${name} - photo ${displayIndex + 1} sur ${validPhotos.length}`}
                     className="w-full h-full object-cover transition-opacity duration-300"
                     onError={() => onImgError(validPhotos[displayIndex])}
                 />
@@ -57,7 +57,7 @@ export default function PhotoCarousel({ photos, name, initials }: { photos: stri
                     {validPhotos.map((url, i) => (
                         <button key={url} onClick={() => setCurrent(i)}
                             className={`carousel-thumb${displayIndex === i ? " active" : ""}`}>
-                            <img src={url} alt={`${name} — vignette ${i + 1}`} className="w-full h-full object-cover"
+                            <img src={url} alt={`${name} - vignette ${i + 1}`} className="w-full h-full object-cover"
                                 onError={() => onImgError(url)} />
                         </button>
                     ))}

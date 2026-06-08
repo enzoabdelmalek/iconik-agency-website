@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary",
         title: "Projets | Iconik Agency",
-        description: "Films, séries, publicités, théâtre — nos talents brillent sur tous les écrans.",
+        description: "Films, séries, publicités, théâtre - nos talents brillent sur tous les écrans.",
     },
 };
 
@@ -59,7 +59,7 @@ export default async function ProjetsPage() {
                     <h1 className="text-5xl md:text-7xl mb-6">Projets</h1>
                     <div className="section-divider" />
                     <p className="text-muted leading-relaxed max-w-xl text-lg mt-6">
-                        Films, séries, publicités, théâtre — nos talents brillent sur tous
+                        Films, séries, publicités, théâtre - nos talents brillent sur tous
                         les écrans et toutes les scènes.
                     </p>
                 </div>

@@ -49,11 +49,32 @@ export default function TalentCVButton({ talent }: Props) {
 
         let y = 0;
 
+        const SAFE_H = H - 22; // bottom boundary before footer zone
+
         // ─── Helper functions ───
         const line = (color = LIGHT) => {
             doc.setDrawColor(...color);
             doc.setLineWidth(0.3);
             doc.line(marginX, y, W - marginX, y);
+        };
+
+        const drawFooter = () => {
+            const fy = H - 14;
+            doc.setDrawColor(...LIGHT);
+            doc.setLineWidth(0.3);
+            doc.line(marginX, fy, W - marginX, fy);
+            doc.setFontSize(7);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(...GREY);
+            doc.text("ICONIK AGENCY  ·  www.iconikagency.fr  ·  hello@iconikagency.com", W / 2, fy + 5, { align: "center", charSpace: 0.5 });
+        };
+
+        const checkPageBreak = (needed = 15) => {
+            if (y + needed > SAFE_H) {
+                drawFooter();
+                doc.addPage();
+                y = 20;
+            }
         };
 
         const text = (
@@ -113,7 +134,7 @@ export default function TalentCVButton({ talent }: Props) {
                 doc.addImage(dataUrl, "JPEG", imgX, imgY, imgW, imgH);
                 photoEmbedded = true;
             } catch {
-                // Photo not accessible (CORS etc.) — skip it
+                // Photo not accessible (CORS etc.) - skip it
             }
         }
 
@@ -160,10 +181,17 @@ export default function TalentCVButton({ talent }: Props) {
             doc.setFont("helvetica", "normal");
             doc.setTextColor(...BLACK);
             const maxDescW = photoEmbedded ? contentW - 62 : contentW;
-            const lines = doc.splitTextToSize(talent.description, maxDescW);
-            const maxLines = photoEmbedded ? 8 : 6;
-            doc.text(lines.slice(0, maxLines), marginX, y);
-            y += Math.min(lines.length, maxLines) * 5.5 + 6;
+            const descLines = doc.splitTextToSize(talent.description, maxDescW);
+            const lineH = 5.5;
+            for (const descLine of descLines) {
+                checkPageBreak(lineH + 2);
+                doc.setFontSize(9.5);
+                doc.setFont("helvetica", "normal");
+                doc.setTextColor(...BLACK);
+                doc.text(descLine, marginX, y);
+                y += lineH;
+            }
+            y += 6;
         } else {
             y = 82;
         }
@@ -177,6 +205,7 @@ export default function TalentCVButton({ talent }: Props) {
         if (talent.gender) details.push({ label: "GENRE", value: talent.gender });
 
         if (details.length > 0) {
+            checkPageBreak(Math.ceil(details.length / 2) * 12 + 16);
             line();
             y += 8;
             const colW = contentW / 2;
@@ -202,6 +231,7 @@ export default function TalentCVButton({ talent }: Props) {
 
         // ─── Languages ───
         if (talent.languages?.length > 0) {
+            checkPageBreak(25);
             line();
             y += 8;
             doc.setFontSize(6.5);
@@ -217,6 +247,7 @@ export default function TalentCVButton({ talent }: Props) {
 
         // ─── Skills ───
         if (talent.skills?.length > 0) {
+            checkPageBreak(30);
             line();
             y += 8;
             doc.setFontSize(6.5);
@@ -252,6 +283,7 @@ export default function TalentCVButton({ talent }: Props) {
 
         // ─── Projects ───
         if (talent.projects?.length > 0) {
+            checkPageBreak(30);
             line();
             y += 8;
             doc.setFontSize(6.5);
@@ -261,13 +293,13 @@ export default function TalentCVButton({ talent }: Props) {
             y += 6;
 
             talent.projects.forEach((project) => {
-                if (y > H - 25) return; // stop before footer
+                checkPageBreak(12);
 
                 doc.setFontSize(9);
                 doc.setFont("helvetica", "normal");
                 doc.setTextColor(...BLACK);
 
-                let projectLine = `— ${project.title}`;
+                let projectLine = `- ${project.title}`;
                 const meta: string[] = [];
                 if (project.role) meta.push(project.role);
                 if (project.type) meta.push(project.type);
@@ -287,14 +319,8 @@ export default function TalentCVButton({ talent }: Props) {
             y += 2;
         }
 
-        // ─── Footer ───
-        y = H - 14;
-        line();
-        y += 5;
-        doc.setFontSize(7);
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(...GREY);
-        doc.text("ICONIK AGENCY  ·  www.iconikagency.fr  ·  hello@iconikagency.com", W / 2, y, { align: "center", charSpace: 0.5 });
+        // ─── Footer (on last page) ───
+        drawFooter();
 
         // ─── Save ───
         const fileName = `${talent.firstName.toLowerCase()}-${talent.lastName.toLowerCase()}-iconik.pdf`;

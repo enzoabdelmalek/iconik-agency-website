@@ -34,7 +34,7 @@ export const projects: Project[] = [
     },
     {
         slug: "campagne-orange",
-        title: "Campagne Orange — Noël",
+        title: "Campagne Orange - Noël",
         type: "Publicité",
         year: 2023,
         director: "Agence BETC",

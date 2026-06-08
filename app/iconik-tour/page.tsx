@@ -13,12 +13,12 @@ export const metadata: Metadata = {
         url: "https://www.iconikagency.fr/iconik-tour",
         title: "Iconik Tour | Iconik Agency",
         description: "L'Iconik Tour est la seule voie pour intégrer Iconik Agency. Un dispositif de détection itinérante de talents, au cœur des territoires.",
-        images: [{ url: "/assets/_69A7006.jpg", width: 1200, height: 630, alt: "Iconik Tour — session de détection de talents" }],
+        images: [{ url: "/assets/_69A7006.jpg", width: 1200, height: 630, alt: "Iconik Tour - session de détection de talents" }],
     },
     twitter: {
         card: "summary",
         title: "Iconik Tour | Iconik Agency",
-        description: "Détection itinérante de talents — la seule voie pour intégrer Iconik Agency.",
+        description: "Détection itinérante de talents - la seule voie pour intégrer Iconik Agency.",
     },
 };
 
@@ -41,7 +41,7 @@ const steps = [
     {
         number: "04",
         title: "L'accompagnement",
-        desc: "Suivi personnalisé, projets concrets, protection et cadre bienveillant — parce que derrière chaque talent, il y a un enfant à protéger.",
+        desc: "Suivi personnalisé, projets concrets, protection et cadre bienveillant - parce que derrière chaque talent, il y a un enfant à protéger.",
     },
 ];
 
@@ -80,7 +80,7 @@ export default function IkonikTourPage() {
                             </AnimateOnScroll>
                             <AnimateOnScroll delay={1}>
                                 <p className="text-muted leading-relaxed mb-6 text-lg">
-                                    L&apos;Iconik Tour est une main tendue vers ceux qui n&apos;osent pas encore. Ce dispositif est la seule voie pour intégrer Iconik Agency — et le point de départ d&apos;une aventure qui peut tout changer.
+                                    L&apos;Iconik Tour est une main tendue vers ceux qui n&apos;osent pas encore. Ce dispositif est la seule voie pour intégrer Iconik Agency - et le point de départ d&apos;une aventure qui peut tout changer.
                                 </p>
                             </AnimateOnScroll>
                             <AnimateOnScroll delay={2}>
@@ -100,7 +100,7 @@ export default function IkonikTourPage() {
                                 <div className="aspect-[4/5] w-full overflow-hidden relative">
                                     <Image
                                         src="/assets/_69A7006.jpg"
-                                        alt="Iconik Tour — jeune talent en audition"
+                                        alt="Iconik Tour - jeune talent en audition"
                                         fill
                                         className="object-cover"
                                         sizes="(max-width: 768px) 100vw, 50vw"
@@ -178,7 +178,7 @@ export default function IkonikTourPage() {
                         </AnimateOnScroll>
                         <AnimateOnScroll delay={3}>
                             <p className="text-muted leading-relaxed">
-                                En allant chercher ces jeunes tôt, nous faisons bien plus que détecter des talents. Nous plantons une graine de confiance — où chaque jeune détecté est accompagné, protégé et préparé à entrer dans l&apos;industrie dans les meilleures conditions.
+                                En allant chercher ces jeunes tôt, nous faisons bien plus que détecter des talents. Nous plantons une graine de confiance - où chaque jeune détecté est accompagné, protégé et préparé à entrer dans l&apos;industrie dans les meilleures conditions.
                             </p>
                         </AnimateOnScroll>
                     </div>
@@ -262,7 +262,7 @@ export default function IkonikTourPage() {
                             <div className="aspect-[4/5] w-full overflow-hidden relative">
                                 <Image
                                     src="/assets/_69A7025.jpg"
-                                    alt="Iconik Tour — le jury en action"
+                                    alt="Iconik Tour - le jury en action"
                                     fill
                                     className="object-cover"
                                     sizes="(max-width: 768px) 100vw, 50vw"
@@ -297,7 +297,7 @@ export default function IkonikTourPage() {
                         </AnimateOnScroll>
                         <AnimateOnScroll delay={3}>
                             <p className="text-muted leading-relaxed">
-                                Notre rôle n&apos;est pas seulement de faire émerger des talents pour le cinéma. C&apos;est aussi de contribuer à construire des jeunes confiants, épanouis et armés — que le cinéma devienne leur métier ou non.
+                                Notre rôle n&apos;est pas seulement de faire émerger des talents pour le cinéma. C&apos;est aussi de contribuer à construire des jeunes confiants, épanouis et armés - que le cinéma devienne leur métier ou non.
                             </p>
                         </AnimateOnScroll>
                     </div>
@@ -314,7 +314,7 @@ export default function IkonikTourPage() {
                     </AnimateOnScroll>
                     <AnimateOnScroll delay={2}>
                         <p className="mt-8 text-sm tracking-[0.15em] uppercase text-background/50">
-                            Aïssata Diaw — Fondatrice d&apos;Iconik Agency
+                            Aïssata Diaw - Fondatrice d&apos;Iconik Agency
                         </p>
                     </AnimateOnScroll>
                 </div>

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         url: "https://www.iconikagency.fr/actualites",
         title: "Actualités | Iconik Agency",
         description: "Suivez les dernières actualités d'Iconik Agency : projets, festivals, partenariats et succès de nos jeunes talents.",
-        images: [{ url: "/assets/_69A7114.jpg", width: 1200, height: 630, alt: "Iconik Agency — actualités" }],
+        images: [{ url: "/assets/_69A7114.jpg", width: 1200, height: 630, alt: "Iconik Agency - actualités" }],
     },
     twitter: {
         card: "summary",

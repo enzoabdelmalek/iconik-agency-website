@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
         const { error: emailError } = await resend.emails.send({
             from: "Iconik Agency <noreply@iconikagency.fr>",
             to: notificationEmail,
-            subject: `Nouveau message — ${subjectLabel}`,
+            subject: `Nouveau message - ${subjectLabel}`,
             html: `
                 <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
                     <h2 style="font-size: 20px; margin-bottom: 24px;">Nouveau message de contact</h2>
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
         await resend.emails.send({
             from: "Iconik Agency <noreply@iconikagency.fr>",
             to: email,
-            subject: "Nous avons bien reçu votre message — Iconik Agency",
+            subject: "Nous avons bien reçu votre message - Iconik Agency",
             html: `
                 <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
                     <h2 style="font-size: 20px; margin-bottom: 8px;">Merci pour votre message, ${name}.</h2>

@@ -71,7 +71,7 @@ export default async function ReviewsSection() {
                             <div className="flex flex-col gap-4 border-t border-border pt-8">
                                 <Stars rating={review.rating} />
                                 <p className="text-muted leading-relaxed text-sm flex-1">&ldquo;{review.comment}&rdquo;</p>
-                                <p className="text-xs tracking-[0.1em] uppercase">— {review.author_name}</p>
+                                <p className="text-xs tracking-[0.1em] uppercase">- {review.author_name}</p>
                             </div>
                         </AnimateOnScroll>
                     ))}
