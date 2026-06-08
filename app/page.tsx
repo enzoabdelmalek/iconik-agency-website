@@ -66,7 +66,7 @@ export default async function HomePage() {
         description:
             "Agence artistique dédiée aux jeunes comédiens pour le cinéma, la télévision et le théâtre.",
         url: "https://www.iconikagency.fr",
-        telephone: "+33621636179",
+        telephone: "+33756899078",
         email: "hello@iconikagency.com",
         address: {
             "@type": "PostalAddress",

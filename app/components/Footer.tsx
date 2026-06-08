@@ -65,10 +65,10 @@ export default function Footer() {
                                     hello@iconikagency.com
                                 </a>
                                 <a
-                                    href="tel:+33621636179"
+                                    href="tel:+33756899078"
                                     className="no-underline text-background/60 hover:text-background transition-colors duration-300"
                                 >
-                                    +33 6 21 63 61 79
+                                    +33 7 56 89 90 78
                                 </a>
                             </div>
                         </div>

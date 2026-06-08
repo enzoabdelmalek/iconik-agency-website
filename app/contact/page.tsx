@@ -90,10 +90,10 @@ export default function ContactPage() {
                                             Téléphone
                                         </p>
                                         <a
-                                            href="tel:+33621636179"
+                                            href="tel:+33756899078"
                                             className="text-foreground no-underline hover:opacity-70 transition-opacity"
                                         >
-                                            +33 6 21 63 61 79
+                                            +33 7 56 89 90 78
                                         </a>
                                     </div>
                                 </AnimateOnScroll>
