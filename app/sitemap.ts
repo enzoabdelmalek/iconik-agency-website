@@ -12,8 +12,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         supabase.from("blog").select("slug, created_at").eq("business_id", BUSINESS_ID).eq("active", true),
     ]);
 
-    const talentRoutes: MetadataRoute.Sitemap = (talents || []).filter((t: any) => t.slug).map((t: any) => ({
-        url: `${base}/talents/${t.slug}`,
+    const talentRoutes: MetadataRoute.Sitemap = (talents || []).map((t: any) => ({
+        url: `${base}/talents/${t.slug || t.id}`,
         lastModified: t.updated_at ? new Date(t.updated_at) : now,
         changeFrequency: "monthly" as const,
         priority: 0.8,
