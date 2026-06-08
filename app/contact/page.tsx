@@ -76,10 +76,10 @@ export default function ContactPage() {
                                             Email
                                         </p>
                                         <a
-                                            href="mailto:hello@iconikagency.com"
+                                            href="mailto:hello@iconikagency.fr"
                                             className="text-foreground no-underline hover:opacity-70 transition-opacity"
                                         >
-                                            hello@iconikagency.com
+                                            hello@iconikagency.fr
                                         </a>
                                     </div>
                                 </AnimateOnScroll>

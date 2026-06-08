@@ -59,10 +59,10 @@ export default function Footer() {
                             </p>
                             <div className="flex flex-col gap-5 text-[0.9375rem] text-background/60">
                                 <a
-                                    href="mailto:hello@iconikagency.com"
+                                    href="mailto:hello@iconikagency.fr"
                                     className="no-underline text-background/60 hover:text-background transition-colors duration-300"
                                 >
-                                    hello@iconikagency.com
+                                    hello@iconikagency.fr
                                 </a>
                                 <a
                                     href="tel:+33756899078"

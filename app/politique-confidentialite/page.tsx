@@ -29,7 +29,7 @@ export default function PolitiqueConfidentialitePage() {
                             <p className="mt-2">
                                 <strong>Iconik Agency</strong><br />
                                 Directrice : Aïssata Diaw<br />
-                                Contact : <a href="mailto:hello@iconikagency.com" className="text-foreground underline underline-offset-4">hello@iconikagency.com</a>
+                                Contact : <a href="mailto:hello@iconikagency.fr" className="text-foreground underline underline-offset-4">hello@iconikagency.fr</a>
                             </p>
                         </div>
 
@@ -119,7 +119,7 @@ export default function PolitiqueConfidentialitePage() {
                             </ul>
                             <p className="mt-4">
                                 Pour exercer ces droits, contactez-nous à :{" "}
-                                <a href="mailto:hello@iconikagency.com" className="text-foreground underline underline-offset-4">hello@iconikagency.com</a>
+                                <a href="mailto:hello@iconikagency.fr" className="text-foreground underline underline-offset-4">hello@iconikagency.fr</a>
                             </p>
                             <p className="mt-2">
                                 Vous avez également le droit d&apos;introduire une réclamation auprès de la <strong>CNIL</strong> (Commission Nationale de l&apos;Informatique et des Libertés) à l&apos;adresse{" "}

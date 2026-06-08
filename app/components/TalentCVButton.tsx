@@ -73,7 +73,7 @@ export default function TalentCVButton({ talent }: Props) {
             doc.setFontSize(7);
             doc.setFont("helvetica", "normal");
             doc.setTextColor(...GREY);
-            doc.text("ICONIK AGENCY  ·  www.iconikagency.fr  ·  hello@iconikagency.com", W / 2, fy + 5, { align: "center", charSpace: 0.5 });
+            doc.text("ICONIK AGENCY  ·  www.iconikagency.fr  ·  hello@iconikagency.fr", W / 2, fy + 5, { align: "center", charSpace: 0.5 });
         };
 
         const checkPageBreak = (needed = 15) => {
@@ -181,29 +181,9 @@ export default function TalentCVButton({ talent }: Props) {
         y = 73;
         line();
 
-        // ─── Description ───
-        if (talent.description) {
-            y = 82;
-            doc.setFontSize(9.5);
-            doc.setFont("helvetica", "normal");
-            doc.setTextColor(...BLACK);
-            const maxDescW = photoEmbedded ? contentW - 62 : contentW;
-            const descLines = doc.splitTextToSize(talent.description, maxDescW);
-            const lineH = 5.5;
-            for (const descLine of descLines) {
-                checkPageBreak(lineH + 2);
-                doc.setFontSize(9.5);
-                doc.setFont("helvetica", "normal");
-                doc.setTextColor(...BLACK);
-                doc.text(descLine, marginX, y);
-                y += lineH;
-            }
-            y += 6;
-        } else {
-            y = 82;
-        }
+        y = 82;
 
-        // ─── Physical details (2-col grid) ───
+        // ─── Physical details (2-col grid) + Languages ───
         const details: Array<{ label: string; value: string }> = [];
         if (talent.age) details.push({ label: "ÂGE", value: `${talent.age} ans` });
         if (talent.height) details.push({ label: "TAILLE", value: talent.height });
@@ -211,29 +191,47 @@ export default function TalentCVButton({ talent }: Props) {
         if (talent.hairColor) details.push({ label: "CHEVEUX", value: talent.hairColor });
         if (talent.gender) details.push({ label: "GENRE", value: talent.gender });
 
-        if (details.length > 0) {
-            checkPageBreak(Math.ceil(details.length / 2) * 12 + 16);
+        const hasDetails = details.length > 0;
+        const hasLanguages = (talent.languages?.length ?? 0) > 0;
+
+        if (hasDetails || hasLanguages) {
+            checkPageBreak(Math.ceil(details.length / 2) * 12 + (hasLanguages ? 28 : 16));
             line();
             y += 8;
-            const colW = contentW / 2;
-            details.forEach((d, i) => {
-                const col = i % 2;
-                const row = Math.floor(i / 2);
-                const dx = marginX + col * colW;
-                const dy = y + row * 12;
 
+            if (hasDetails) {
+                const colW = contentW / 2;
+                details.forEach((d, i) => {
+                    const col = i % 2;
+                    const row = Math.floor(i / 2);
+                    const dx = marginX + col * colW;
+                    const dy = y + row * 12;
+
+                    doc.setFontSize(6.5);
+                    doc.setFont("helvetica", "normal");
+                    doc.setTextColor(...GREY);
+                    doc.text(d.label, dx, dy, { charSpace: 0.8 });
+
+                    doc.setFontSize(9);
+                    doc.setFont("helvetica", "normal");
+                    doc.setTextColor(...BLACK);
+                    doc.text(d.value, dx, dy + 4.5);
+                });
+                const rows = Math.ceil(details.length / 2);
+                y += rows * 12 + 4;
+            }
+
+            if (hasLanguages) {
                 doc.setFontSize(6.5);
                 doc.setFont("helvetica", "normal");
                 doc.setTextColor(...GREY);
-                doc.text(d.label, dx, dy, { charSpace: 0.8 });
-
+                doc.text("LANGUES", marginX, y, { charSpace: 0.8 });
+                y += 5;
                 doc.setFontSize(9);
-                doc.setFont("helvetica", "normal");
                 doc.setTextColor(...BLACK);
-                doc.text(d.value, dx, dy + 4.5);
-            });
-            const rows = Math.ceil(details.length / 2);
-            y += rows * 12 + 4;
+                doc.text(talent.languages.join("  ·  "), marginX, y);
+                y += 10;
+            }
         }
 
         // ─── Experiences ───
@@ -249,7 +247,6 @@ export default function TalentCVButton({ talent }: Props) {
 
             talent.experiences.forEach((exp) => {
                 checkPageBreak(12);
-                const titleW = contentW - 20;
                 doc.setFontSize(9);
                 doc.setFont("helvetica", "normal");
                 doc.setTextColor(...BLACK);
@@ -268,22 +265,6 @@ export default function TalentCVButton({ talent }: Props) {
                 y += 6;
             });
             y += 2;
-        }
-
-        // ─── Languages ───
-        if (talent.languages?.length > 0) {
-            checkPageBreak(25);
-            line();
-            y += 8;
-            doc.setFontSize(6.5);
-            doc.setFont("helvetica", "normal");
-            doc.setTextColor(...GREY);
-            doc.text("LANGUES", marginX, y, { charSpace: 0.8 });
-            y += 5;
-            doc.setFontSize(9);
-            doc.setTextColor(...BLACK);
-            doc.text(talent.languages.join("  ·  "), marginX, y);
-            y += 10;
         }
 
         // ─── Skills ───
@@ -358,6 +339,27 @@ export default function TalentCVButton({ talent }: Props) {
                 y += 6;
             });
             y += 2;
+        }
+
+        // ─── Description (bottom) ───
+        if (talent.description) {
+            checkPageBreak(20);
+            line();
+            y += 8;
+            doc.setFontSize(9.5);
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(...BLACK);
+            const descLines = doc.splitTextToSize(talent.description, contentW);
+            const lineH = 5.5;
+            for (const descLine of descLines) {
+                checkPageBreak(lineH + 2);
+                doc.setFontSize(9.5);
+                doc.setFont("helvetica", "normal");
+                doc.setTextColor(...BLACK);
+                doc.text(descLine, marginX, y);
+                y += lineH;
+            }
+            y += 6;
         }
 
         // ─── Footer (on last page) ───

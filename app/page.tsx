@@ -67,7 +67,7 @@ export default async function HomePage() {
             "Agence artistique dédiée aux jeunes comédiens pour le cinéma, la télévision et le théâtre.",
         url: "https://www.iconikagency.fr",
         telephone: "+33756899078",
-        email: "hello@iconikagency.com",
+        email: "hello@iconikagency.fr",
         address: {
             "@type": "PostalAddress",
             addressLocality: "Mantes-la-Jolie",

@@ -33,7 +33,7 @@ export default function MentionsLegalesPage() {
                                 <br />
                                 Directrice de la publication : Aïssata Diaw
                                 <br />
-                                Contact : hello@iconikagency.com
+                                Contact : hello@iconikagency.fr
                             </p>
                         </div>
 
@@ -83,7 +83,7 @@ export default function MentionsLegalesPage() {
                             </p>
                             <p className="mt-2">
                                 Pour exercer vos droits, contactez-nous à :{" "}
-                                <strong>hello@iconikagency.com</strong>
+                                <strong>hello@iconikagency.fr</strong>
                             </p>
                         </div>
 
