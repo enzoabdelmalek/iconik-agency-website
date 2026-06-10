@@ -244,7 +244,13 @@ export default function TalentCVButton({ talent }: Props) {
             doc.text("EXPÉRIENCES", marginX, y, { charSpace: 0.8 });
             y += 6;
 
-            talent.experiences.forEach((exp) => {
+            const sortedExperiences = [...talent.experiences].sort((a, b) => {
+                const ya = parseInt(a.year) || 0;
+                const yb = parseInt(b.year) || 0;
+                return yb - ya;
+            });
+
+            sortedExperiences.forEach((exp) => {
                 checkPageBreak(12);
                 doc.setFontSize(9);
                 doc.setFont("helvetica", "normal");
