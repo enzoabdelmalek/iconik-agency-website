@@ -91,8 +91,15 @@ export default async function HomePage() {
                         Agence de Jeunes Comédiens - Paris
                     </p>
 
-                    <h1 className="hero-title text-[clamp(3rem,10vw,9rem)] leading-[0.95] tracking-[-0.03em] mb-8">
-                        ICONIK
+                    <h1 className="hero-title mb-8 flex justify-center">
+                        <Image
+                            src="/logo/logo.png"
+                            alt="Iconik Agency"
+                            width={600}
+                            height={200}
+                            className="w-[clamp(200px,50vw,520px)] h-auto"
+                            priority
+                        />
                     </h1>
 
                     <div className="hero-line h-[1px] bg-foreground mx-auto mb-8" />

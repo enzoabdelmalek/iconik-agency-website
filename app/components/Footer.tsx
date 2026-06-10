@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SOCIAL_LINKS } from "@/lib/social";
 
 const navLinks = [
@@ -18,11 +19,14 @@ export default function Footer() {
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-16">
                     {/* Left: Brand block */}
                     <div className="max-w-md">
-                        <Link
-                            href="/"
-                            className="font-serif text-4xl md:text-5xl tracking-[0.06em] text-background no-underline block mb-6"
-                        >
-                            ICONIK
+                        <Link href="/" className="no-underline block mb-6">
+                            <Image
+                                src="/logo/logo.png"
+                                alt="Iconik Agency"
+                                width={200}
+                                height={67}
+                                className="h-12 w-auto brightness-0 invert"
+                            />
                         </Link>
                         <p className="text-sm leading-relaxed text-background/50">
                             Agence parisienne dédiée aux jeunes comédiens.
