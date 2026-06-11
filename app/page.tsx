@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-    const [{ data: peopleData }, { data: projectsData }, { data: newsData }] = await Promise.all([
+    const [{ data: peopleData }, { data: projectsData }, { data: newsData }, { count: talentsCount }] = await Promise.all([
         supabase
             .from("people")
             .select("id, name, first_name, last_name, age, specialty, skills, photo_url, date_of_birth, gender, height, eye_color, hair_color, languages, projects, description")
@@ -52,6 +52,11 @@ export default async function HomePage() {
             .eq("active", true)
             .order("created_at", { ascending: false })
             .limit(3),
+        supabase
+            .from("people")
+            .select("*", { count: "exact", head: true })
+            .eq("business_id", BUSINESS_ID)
+            .neq("active", false),
     ]);
 
     const featuredTalents = (peopleData || []).map(mapPersonToTalent);
@@ -245,9 +250,9 @@ export default async function HomePage() {
                 <div className="max-w-[1400px] mx-auto px-8 md:px-12">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
                         {[
-                            { number: "12", label: "Talents" },
+                            { number: String(talentsCount ?? 0), label: "Talents" },
                             { number: "30+", label: "Projets réalisés" },
-                            { number: "8", label: "Années d'expérience" },
+                            { number: "3", label: "Années d'expérience" },
                             { number: "100%", label: "Passion" },
                         ].map((stat, index) => (
                             <AnimateOnScroll key={stat.label} delay={(index + 1) as 1 | 2 | 3 | 4}>
@@ -265,81 +270,6 @@ export default async function HomePage() {
                 </div>
             </section>
 
-            {/* ─── FEATURED PROJECTS ─── */}
-            {featuredProjects.length > 0 && (
-                <section className="py-24 md:py-32">
-                    <div className="max-w-[1400px] mx-auto px-8 md:px-12">
-                        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
-                            <div>
-                                <AnimateOnScroll>
-                                    <p className="text-xs tracking-[0.2em] uppercase text-muted mb-4">
-                                        Projets
-                                    </p>
-                                </AnimateOnScroll>
-                                <AnimateOnScroll delay={1}>
-                                    <h2 className="text-4xl md:text-5xl">
-                                        Nos dernières
-                                        <br />
-                                        collaborations
-                                    </h2>
-                                </AnimateOnScroll>
-                            </div>
-                            <AnimateOnScroll delay={2}>
-                                <Link
-                                    href="/projets"
-                                    className="mt-6 md:mt-0 text-sm tracking-[0.1em] uppercase text-muted hover:text-foreground transition-colors no-underline border-b border-muted hover:border-foreground pb-1"
-                                >
-                                    Tous les projets →
-                                </Link>
-                            </AnimateOnScroll>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            {featuredProjects.map((project, index) => (
-                                <AnimateOnScroll key={project.id} delay={(index + 1) as 1 | 2 | 3}>
-                                    <Link href={`/projets/${project.id}`} className="block no-underline project-card group">
-                                        <div className="aspect-[16/10] w-full mb-6 overflow-hidden relative">
-                                            {project.photo_url ? (
-                                                <Image
-                                                    src={project.photo_url}
-                                                    alt={project.title}
-                                                    fill
-                                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                                    sizes="(max-width: 768px) 100vw, 33vw"
-                                                />
-                                            ) : (
-                                                <div className="photo-placeholder-dark photo-placeholder w-full h-full">
-                                                    <span className="relative z-10 text-3xl">
-                                                        {project.title[0]}
-                                                    </span>
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="flex items-center gap-3 mb-3">
-                                            {project.type && (
-                                                <span className="text-xs tracking-[0.1em] uppercase text-muted">
-                                                    {project.type}
-                                                </span>
-                                            )}
-                                            {project.type && project.year && (
-                                                <span className="w-1 h-1 rounded-full bg-muted" />
-                                            )}
-                                            {project.year && (
-                                                <span className="text-xs tracking-[0.1em] uppercase text-muted">
-                                                    {project.year}
-                                                </span>
-                                            )}
-                                        </div>
-                                        <h3 className="text-xl md:text-2xl group-hover:opacity-70 transition-opacity">
-                                            {project.title}
-                                        </h3>
-                                    </Link>
-                                </AnimateOnScroll>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
 
             {/* ─── ACTUALITÉS ─── */}
             {latestNews.length > 0 && (
@@ -390,17 +320,6 @@ export default async function HomePage() {
                     <AnimateOnScroll>
                         <p className="text-xs tracking-[0.2em] uppercase text-background/40 mb-6">
                             Rejoignez-nous
-                        </p>
-                    </AnimateOnScroll>
-                    <AnimateOnScroll delay={1}>
-                        <h2 className="text-4xl md:text-5xl text-background mb-6">
-                            Votre enfant a du talent ?
-                        </h2>
-                    </AnimateOnScroll>
-                    <AnimateOnScroll delay={2}>
-                        <p className="text-background/60 leading-relaxed mb-10 text-lg">
-                            Nous recherchons en permanence de nouveaux visages et de nouvelles
-                            personnalités. Contactez-nous pour une audition.
                         </p>
                     </AnimateOnScroll>
                     <AnimateOnScroll delay={3}>
