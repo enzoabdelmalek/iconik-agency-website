@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { supabase, BUSINESS_ID } from "@/lib/supabase";
 import AnimateOnScroll from "@/app/components/AnimateOnScroll";
+import SortToggle from "./SortToggle";
 
 export const metadata: Metadata = {
     title: "Actualités",
@@ -34,18 +36,24 @@ interface BlogPost {
     cover_url: string | null;
 }
 
-async function getPosts(): Promise<BlogPost[]> {
+async function getPosts(ascending: boolean): Promise<BlogPost[]> {
     const { data } = await supabase
         .from("blog")
         .select("id, slug, title, date, category, excerpt, cover_url")
         .eq("business_id", BUSINESS_ID)
         .eq("active", true)
-        .order("date", { ascending: false, nullsFirst: false });
+        .order("date", { ascending, nullsFirst: false });
     return (data as BlogPost[]) || [];
 }
 
-export default async function ActualitesPage() {
-    const posts = await getPosts();
+export default async function ActualitesPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ tri?: string }>;
+}) {
+    const { tri } = await searchParams;
+    const order: "desc" | "asc" = tri === "asc" ? "asc" : "desc";
+    const posts = await getPosts(order === "asc");
 
     return (
         <>
@@ -75,47 +83,56 @@ export default async function ActualitesPage() {
                             <p className="text-muted">Aucune actualité pour le moment.</p>
                         </div>
                     ) : (
-                        <div className="flex flex-col">
-                            {posts.map((item, index) => (
-                                <AnimateOnScroll key={item.id}>
-                                    <Link
-                                        href={`/actualites/${item.slug}`}
-                                        className={`flex gap-8 items-start py-12 group ${index < posts.length - 1 ? "border-b border-border" : ""}`}
-                                    >
-                                        {/* Cover */}
-                                        {item.cover_url && (
-                                            <div className="shrink-0 w-40 md:w-56 aspect-[16/10] overflow-hidden bg-surface">
-                                                <img
-                                                    src={item.cover_url}
-                                                    alt={item.title}
-                                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                                />
-                                            </div>
-                                        )}
-                                        {/* Text */}
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex items-center gap-3 mb-4">
-                                                <span className="text-xs tracking-[0.1em] uppercase text-muted px-3 py-1 border border-border">
-                                                    {item.category}
-                                                </span>
-                                                <span className="text-xs text-muted">{item.date}</span>
-                                            </div>
-                                            <h2 className="text-2xl md:text-3xl mb-4 group-hover:opacity-70 transition-opacity">
-                                                {item.title}
-                                            </h2>
-                                            {item.excerpt && (
-                                                <p className="text-muted leading-relaxed line-clamp-2">
-                                                    {item.excerpt}
-                                                </p>
+                        <>
+                            {/* Tri */}
+                            <div className="flex justify-end mb-8">
+                                <Suspense fallback={null}>
+                                    <SortToggle current={order} />
+                                </Suspense>
+                            </div>
+
+                            <div className="flex flex-col">
+                                {posts.map((item, index) => (
+                                    <AnimateOnScroll key={item.id}>
+                                        <Link
+                                            href={`/actualites/${item.slug}`}
+                                            className={`flex gap-8 items-start py-12 group ${index < posts.length - 1 ? "border-b border-border" : ""}`}
+                                        >
+                                            {/* Cover */}
+                                            {item.cover_url && (
+                                                <div className="shrink-0 w-40 md:w-56 aspect-[16/10] overflow-hidden bg-surface">
+                                                    <img
+                                                        src={item.cover_url}
+                                                        alt={item.title}
+                                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                    />
+                                                </div>
                                             )}
-                                            <p className="mt-4 text-xs tracking-[0.1em] uppercase text-foreground group-hover:opacity-70 transition-opacity">
-                                                Lire la suite →
-                                            </p>
-                                        </div>
-                                    </Link>
-                                </AnimateOnScroll>
-                            ))}
-                        </div>
+                                            {/* Text */}
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center gap-3 mb-4">
+                                                    <span className="text-xs tracking-[0.1em] uppercase text-muted px-3 py-1 border border-border">
+                                                        {item.category}
+                                                    </span>
+                                                    <span className="text-xs text-muted">{item.date}</span>
+                                                </div>
+                                                <h2 className="text-2xl md:text-3xl mb-4 group-hover:opacity-70 transition-opacity">
+                                                    {item.title}
+                                                </h2>
+                                                {item.excerpt && (
+                                                    <p className="text-muted leading-relaxed line-clamp-2">
+                                                        {item.excerpt}
+                                                    </p>
+                                                )}
+                                                <p className="mt-4 text-xs tracking-[0.1em] uppercase text-foreground group-hover:opacity-70 transition-opacity">
+                                                    Lire la suite →
+                                                </p>
+                                            </div>
+                                        </Link>
+                                    </AnimateOnScroll>
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
             </section>
