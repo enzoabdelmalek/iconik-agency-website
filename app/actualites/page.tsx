@@ -36,14 +36,47 @@ interface BlogPost {
     cover_url: string | null;
 }
 
+const MOIS: Record<string, number> = {
+    janvier: 0, février: 1, fevrier: 1, mars: 2, avril: 3, mai: 4, juin: 5,
+    juillet: 6, août: 7, aout: 7, septembre: 8, octobre: 9, novembre: 10, décembre: 11, decembre: 11,
+};
+
+function parseDate(raw: string): number {
+    if (!raw) return 0;
+    const s = raw.trim().toLowerCase();
+    // ISO : "2024-03-15" ou "2024-03"
+    if (/^\d{4}-\d{2}(-\d{2})?$/.test(s)) return new Date(s).getTime();
+    // Année seule : "2024"
+    if (/^\d{4}$/.test(s)) return new Date(`${s}-01-01`).getTime();
+    // "15 mars 2024" ou "mars 2024"
+    const parts = s.split(/\s+/);
+    if (parts.length === 3) {
+        const [day, month, year] = parts;
+        const m = MOIS[month];
+        if (m !== undefined) return new Date(+year, m, +day).getTime();
+    }
+    if (parts.length === 2) {
+        const [month, year] = parts;
+        const m = MOIS[month];
+        if (m !== undefined) return new Date(+year, m, 1).getTime();
+    }
+    // Fallback : laisser JS tenter
+    const t = Date.parse(raw);
+    return isNaN(t) ? 0 : t;
+}
+
 async function getPosts(ascending: boolean): Promise<BlogPost[]> {
     const { data } = await supabase
         .from("blog")
         .select("id, slug, title, date, category, excerpt, cover_url")
         .eq("business_id", BUSINESS_ID)
-        .eq("active", true)
-        .order("date", { ascending, nullsFirst: false });
-    return (data as BlogPost[]) || [];
+        .eq("active", true);
+    const posts = (data as BlogPost[]) || [];
+    posts.sort((a, b) => {
+        const diff = parseDate(a.date) - parseDate(b.date);
+        return ascending ? diff : -diff;
+    });
+    return posts;
 }
 
 export default async function ActualitesPage({
