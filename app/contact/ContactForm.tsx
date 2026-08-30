@@ -18,14 +18,12 @@ export default function ContactForm() {
         ? `Autre${autreDetail.trim() ? ` : ${autreDetail.trim()}` : ""}`
         : subject;
 
-    const mailtoHref = `mailto:hello@iconikagency.fr${
-        resolvedSubject || message
-            ? `?${new URLSearchParams({
-                  ...(resolvedSubject ? { subject: resolvedSubject } : {}),
-                  ...(message ? { body: message } : {}),
-              }).toString()}`
-            : ""
-    }`;
+    const params = [
+        resolvedSubject ? `subject=${encodeURIComponent(resolvedSubject)}` : "",
+        message ? `body=${encodeURIComponent(message)}` : "",
+    ].filter(Boolean).join("&");
+
+    const mailtoHref = `mailto:hello@iconikagency.fr${params ? `?${params}` : ""}`;
 
     return (
         <div className="flex flex-col gap-8">
